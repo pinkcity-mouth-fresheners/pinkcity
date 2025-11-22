@@ -34,7 +34,7 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://pinkcitychatbot.t-bash.space/chat", {
+      const response = await fetch("https://chat.pinkcitymouthfresheners.com/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

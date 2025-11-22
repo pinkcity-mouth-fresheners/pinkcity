@@ -58,7 +58,7 @@ const ContactUsCard = ({
     if (validate()) {
       setIsSubmitting(true);
       try {
-        const res = await fetch("http://34.131.254.129:4000/contact", {
+        const res = await fetch("https://api.pinkcitymouthfresheners.com/contact", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
