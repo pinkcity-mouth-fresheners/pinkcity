@@ -8,8 +8,8 @@ import { useMobile } from "@/components/MobileProvider";
 import TopSellerMobileItem from "@/components/TopSellerMobileItem";
 
 const topSellersData = [
-  { text: "Banarasi Paan", imageSrc: Banarasi },
-  { text: "Calcutti Pan Gold", imageSrc: CalcultiPaanGold },
+  { text: "Banarsi Paan", imageSrc: Banarasi },
+  { text: "Calcutti Paan Gold", imageSrc: CalcultiPaanGold },
   { text: "Dry Paan", imageSrc: DryPaan },
 ];
 

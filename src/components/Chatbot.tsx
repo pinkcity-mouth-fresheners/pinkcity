@@ -89,7 +89,7 @@ const Chatbot = () => {
     <>
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-36 right-10 w-96 min-w-[30%] max-w-[80%] h-[50%] bg-white rounded-lg shadow-2xl z-50 flex flex-col border border-pinkcity-dark/20  transform translate-y-[-20px]">
+        <div className="fixed bottom-32 md:bottom-36 right-4 md:right-10 w-96 min-w-[70%] md:min-w-[30%] max-w-[90%] md:max-w-[80%] h-[50%] bg-white rounded-lg shadow-2xl z-50 flex flex-col border border-pinkcity-dark/20  transform translate-y-[-20px]">
           {/* Header */}
           {/* <div className="bg-pinkcity-dark text-white p-4 rounded-t-lg flex justify-between items-center">
             <div className="flex items-center gap-2">
@@ -176,7 +176,7 @@ const Chatbot = () => {
               <button
                 onClick={handleSend}
                 disabled={isLoading || !input.trim()}
-                className="bg-pinkcity-dark text-white px-3 py-2 hover:bg-pinkcity-dark/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-full"
+                className="bg-pinkcity-dark text-white px-2 py-2 md:px-4 md:py-3 hover:bg-pinkcity-dark/90 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-full transition-transform"
               >
                 <FontAwesomeIcon icon={faChevronRight} />
               </button>

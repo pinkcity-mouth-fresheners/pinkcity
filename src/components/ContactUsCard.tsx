@@ -23,7 +23,6 @@ const ContactUsCard = ({
     if (
       !formData.firstName ||
       !formData.email ||
-      !formData.message ||
       !formData.phone
     ) {
       return false;
@@ -150,13 +149,13 @@ const ContactUsCard = ({
       </div>
       <div className={`w-full flex flex-col ${isMobile ? "gap-2" :  "gap-4"}`}>
         <label className={`font-extralight ${isMobile ? "text-sm" : "text-lg"}`} htmlFor="message">
-          Message
+          Message (Optional)
         </label>
         <textarea
           name="message"
           value={formData.message}
           onChange={handleChange}
-          placeholder=""
+          placeholder="Enter your message"
           className={`border-1 border-black focus:outline-none w-full bg-transparent px-4 py-2 rounded-[6] resize-none ${isMobile ? "text-sm" : ""}`}
           rows={isMobile ? 2 : 3}
         />
