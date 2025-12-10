@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import Logo from "../svgs/Logo";
 import { useMobile } from "./MobileProvider";
+import Image from "next/image";
+import Logo from "../../public/images/logo.png";
 
 const headers = [
+  {
+    name: "ABOUT US",
+    link: "#about",
+  },
   {
     name: "PRODUCTS",
     link: "#products",
@@ -25,13 +30,13 @@ const Header = ({ onBrochureClick }: { onBrochureClick: () => void }) => {
         }`}
         role="banner"
       >
-        <div className={`overflow-clip aspect-[301/72] ${isMobile ? `w-1/3` : `w-1/5`}`}>
+        <div className={`overflow-clip aspect-[301/72] ${isMobile ? `w-1/` : `w-1/5`}`}>
           <a
             href="#hero"
             className="cursor-pointer"
             aria-label="PinkCity Mouth Freshener - Home"
           >
-            <Logo />
+            <Image src={Logo} alt="PinkCity Mouth Freshener Logo" className={`${isMobile ? `w-1/3` : `w-2/5`}`}/>
           </a>
         </div>
         {isMobile ? (

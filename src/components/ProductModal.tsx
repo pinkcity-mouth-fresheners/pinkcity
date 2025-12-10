@@ -1,6 +1,7 @@
 import { StaticImageData } from "next/image";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useMobile } from "./MobileProvider";
 import Arrow from "../../public/images/arrow.svg";
 
 interface ProductModalProps {
@@ -26,6 +27,7 @@ interface selectedProduct {
   parentCategory?: string;
 }
 const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
+  const isMobile = useMobile();
   const [selectedProduct, setSelectedProduct] =
     useState<selectedProduct | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("");
@@ -77,14 +79,14 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
       style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
     >
       <div
-        className="w-9/12 rounded-[25px] p-1 bg-gradient-border max-h-9/10 overflow-y-auto flex items-stretch"
+        className={`${isMobile ? "w-11/12 max-h-[90vh]" : "w-10/12 max-h-9/10"} rounded-[25px] p-1 bg-gradient-border overflow-y-auto flex items-stretch`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="bg-white p-8 rounded-[22px] flex flex-col md:flex-row items-start justify-around">
-          <div className="w-1/2 h-full flex flex-col justify-center items-start gap-8">
+        <div className={`bg-white ${isMobile ? "p-4" : "p-8"} rounded-[22px] flex flex-col md:flex-row items-start justify-around w-full`}>
+          <div className={`${isMobile ? "w-full gap-4 h-auto" : "w-1/2 gap-8 h-full"} flex flex-col justify-center items-start`}>
             <div className="min-w-4/5">
               <h2
-                className="text-4xl md:text-5xl mb-4 text-black"
+                className={`${isMobile ? "text-2xl mb-2" : "text-4xl md:text-5xl mb-4"} text-black`}
                 style={{ fontFamily: "var(--font-bentham)" }}
               >
                 {product.title}
@@ -103,7 +105,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
                 <Image
                   src={selectedProduct?.image || product.image}
                   alt={product.title}
-                  className="scale-125"
+                  className={`${isMobile ? "scale-100" : "scale-125"}`}
                   fill
                 />
               </div>
@@ -120,10 +122,10 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
                 </div>
               </button>
             </div>
-            <h1 className="font-bold text-4xl">{selectedProduct?.title}</h1>
-            <p className="text-gray-700 mb-6">{selectedProduct?.description}</p>
+            <h1 className={`font-bold ${isMobile ? "text-xl" : "text-4xl"}`}>{selectedProduct?.title}</h1>
+            <p className={`text-gray-700 ${isMobile ? "mb-2 text-sm" : "mb-6"}`}>{selectedProduct?.description}</p>
           </div>
-          <div className="w-1/2 h-full md:pl-8 flex flex-col gap-4 justify-start p-12 pb-0 items-start">
+          <div className={`${isMobile ? "w-full pl-0 p-4 pt-0 h-auto" : "w-1/2 pl-8 p-12 h-full"} flex flex-col gap-4 justify-start pb-0 items-start`}>
 
             {product.subcategories && (
               <div className="flex w-full justify-start gap-4 flex-wrap">
@@ -133,7 +135,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
                     onClick={() => setActiveCategory(subcategory)}
                   >
                     <p
-                      className={`text-pinkcity-dark min-w-5/12 px-6 py-2 flex justify-center items-center border border-pinkcity-dark rounded-xl ${subcategory === activeCategory
+                      className={`text-pinkcity-dark min-w-5/12 flex justify-center items-center border border-pinkcity-dark rounded-xl ${isMobile ? "text-xs px-3 py-1" : "px-6 py-2"
+                        } ${subcategory === activeCategory
                           ? "bg-pinkcity-dark text-white"
                           : "bg-white text-pinkcity-dark"
                         }`}
@@ -145,12 +148,12 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
               </div>
             )}
             {activeProducts && (
-              <div className="w-full flex flex-wrap gap-4 mt-6 min-h-6/10 overflow-y-auto">
+              <div className={`w-full flex flex-wrap gap-4 mt-6 ${isMobile ? "min-h-0 h-auto" : "min-h-6/10 overflow-y-auto"}`}>
                 {activeProducts.map((item) => (
                   <button
-                    key={item.title}
+                    key={`${item.title}-${item.image}-${item.parentCategory}`}
                     onClick={() => setSelectedProduct(item)}
-                    className="w-1/5"
+                    className={`${isMobile ? "w-1/4" : "w-1/5"}`}
                   >
                     <div
                       className={`flex flex-col gap-2 justify-center items-center p-3 ${item == selectedProduct ? "bg-[#F35C81]/13" : ""
@@ -159,9 +162,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
                       <div className={`min-w-10/12 opacity-100`}>
                         <Image src={item.image} alt={item.title} />
                       </div>
-                      <p>
+                      <div>
                         {item.title.split("  ").map((word) => <p className="text-center text-xs">{word}</p>)}
-                      </p>
+                      </div>
 
                     </div>
                   </button>
