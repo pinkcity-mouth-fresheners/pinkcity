@@ -109,7 +109,15 @@ const ContactUsCard = ({
       className={`bg-white rounded-lg shadow-md text-black flex flex-col justify-center items-start relative ${
         isMobile ? "p-6 gap-2" : "p-14  gap-6"
       }`}>
-      <h2 className={`${isMobile ? "text-xl" : "text-4xl pb-8"}`}>Get In Touch</h2>
+        <div className="w-full">
+      <h1 className="text-2xl text-center font-bold text-pinkcity-dark">
+        ENQUIRE MORE
+      </h1>
+      <h1 className="text-2xl text-center font-bold text-pinkcity-dark">
+        ABOUT OUR PRODUCT LINEUP
+      </h1>
+        </div>
+      <h2 className={`${isMobile ? "text-xl" : "text-2xl pb-8"}`}>Get In Touch</h2>
       <div className={`flex items-center w-full ${isMobile ? 'flex-col gap-2' : 'justify-around  gap-8'}`}>
         <input
           type="text"
@@ -157,7 +165,7 @@ const ContactUsCard = ({
           onChange={handleChange}
           placeholder="Enter your message"
           className={`border-1 border-black focus:outline-none w-full bg-transparent px-4 py-2 rounded-[6] resize-none ${isMobile ? "text-sm" : ""}`}
-          rows={isMobile ? 2 : 3}
+          rows={isMobile ? 3 : 4}
         />
       </div>
       <button

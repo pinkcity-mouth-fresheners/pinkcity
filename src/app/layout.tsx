@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Poppins, Bentham } from "next/font/google";
+import { Poppins, Prata } from "next/font/google";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.pinkcitymouthfresheners.com'),
@@ -80,7 +80,7 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-const bentham = Bentham({
+const bentham = Prata({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-bentham",
