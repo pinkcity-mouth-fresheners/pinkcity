@@ -53,7 +53,9 @@ const AboutUs = () => {
   }, []);
 
   return (
-    <div className="w-full py-14 px-0 flex flex-col justify-center items-center gap-6 relative">
+    <div
+      id="about"
+      className="w-full py-14 px-0 flex flex-col justify-center items-center gap-6 relative">
       <div
         className={`${!isMobile ? "sticky" : ""
           } top-20 w-full flex justify-center bg-white z-20 py-4`}
@@ -129,10 +131,10 @@ const AboutUs = () => {
               alt="PinkCity Mouth Freshener - Premium Mukhwas Manufacturer in Jaipur Since 1982"
             /> */}
             <Image
-            src={Logo}
-            alt="PinkCity Mouth Freshener Logo"
-            className="z-20"
-          />
+              src={Logo}
+              alt="PinkCity Mouth Freshener Logo"
+              className="z-20"
+            />
           </div>
           <p className={`text-justify ${isMobile ? "text-xs" : ""}`}>
             Since 1982, we have been dedicated to creating{" "}

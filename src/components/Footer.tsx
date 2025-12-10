@@ -1,26 +1,24 @@
 import React from "react";
-import Logo from "../svgs/Logo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInstagram,
   faFacebook,
 } from "@fortawesome/free-brands-svg-icons";
 import { useMobile } from "./MobileProvider";
+import Image from "next/image";
+import Logo from "../../public/images/logo.png";
 
 const Footer = () => {
   const isMobile = useMobile();
 
   return (
-    <footer className="bg-black text-white flex flex-col items-center justify-center p-16" role="contentinfo">
+    <footer className="bg-white text-black flex flex-col items-center justify-center p-16" role="contentinfo">
       <div className={`w-full flex items-start justify-between ${isMobile ? "flex-col gap-4" : "flex-row" }`}>
-        <div className="flex flex-col items-center gap-10">
-          <Logo />
-          <div className="text-center mb-6">
-            <h3 className="font-bold text-xl mb-2">PinkCity Mouth Freshener</h3>
-            <p className="text-sm opacity-90">Premium Mukhwas Since 1982</p>
-            <p className="text-sm opacity-90">Jaipur, Rajasthan, India</p>
+        <div className={`flex flex-col ${isMobile ? "items-center pb-4" : "items-start"} gap-10`}>
+          <div className="w-full flex items-start justify-start">
+            <Image src={Logo} alt="PinkCity Mouth Freshener Logo" className={`h-auto ${isMobile ? "w-full" : "w-1/5"}`}/>
           </div>
-          <div className="flex gap-4" role="navigation" aria-label="Social media links">
+          <div className={`flex gap-4 ${!isMobile ? "ps-4" : "justify-center"}`} role="navigation" aria-label="Social media links">
             <a
               href="https://www.instagram.com/pinkcitymouthfresheners?igsh=eWNtYzB0NXV2Nnh5&utm_source=ig_contact_invite"
               target="_blank"
@@ -43,7 +41,7 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className={`flex opacity-90 ${isMobile ? "flex-col gap-14" : "flex-row gap-24" }`}>
+        <div className={`flex opacity-90 min-w-1/3 ${isMobile ? "flex-col gap-14" : "flex-row gap-24" }`}>
           <div className="text-left flex flex-col gap-4">
             <h4 className="font-bold text-lg mb-4">Company</h4>
             <a href="#about" className="text-sm hover:text-pinkcity transition-colors">About Us</a>
@@ -53,10 +51,10 @@ const Footer = () => {
           </div>
           <div className="text-left flex flex-col gap-4">
             <h4 className="font-bold text-lg mb-4">Products</h4>
-            <p className="text-sm">Paan Mukhwas</p>
-            <p className="text-sm">Traditional Mukhwas</p>
-            <p className="text-sm">Saunf Products</p>
-            <p className="text-sm">Supari Products</p>
+            <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Paan Mukhwas</a>
+            <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Traditional Mukhwas</a>
+            <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Saunf Products</a>
+            <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Supari Products</a>
           </div>
           <div className="text-left flex flex-col gap-4">
             <h4 className="font-bold text-lg mb-4">Keywords</h4>

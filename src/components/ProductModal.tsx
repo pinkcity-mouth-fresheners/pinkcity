@@ -77,12 +77,12 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
       style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
     >
       <div
-        className="w-9/12 rounded-[25px] p-1 bg-gradient-border"
+        className="w-9/12 rounded-[25px] p-1 bg-gradient-border max-h-9/10 overflow-y-auto flex items-stretch"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="bg-white p-8 rounded-[22px] flex flex-col md:flex-row items-start justify-around">
-          <div className="w-1/2 h-full flex flex-col justify-center items-center gap-8 mb-16">
-            <div className="w-4/5">
+          <div className="w-1/2 h-full flex flex-col justify-center items-start gap-8">
+            <div className="min-w-4/5">
               <h2
                 className="text-4xl md:text-5xl mb-4 text-black"
                 style={{ fontFamily: "var(--font-bentham)" }}
@@ -101,9 +101,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
               </button>
               <div className="relative w-8/12 aspect-square">
                 <Image
-                  src={product.image}
+                  src={selectedProduct?.image || product.image}
                   alt={product.title}
-                  className="rounded-full object-cover"
+                  className="scale-125"
                   fill
                 />
               </div>
@@ -120,10 +120,10 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
                 </div>
               </button>
             </div>
-          </div>
-          <div className="w-1/2 md:pl-8 flex flex-col gap-4 justify-start p-12">
             <h1 className="font-bold text-4xl">{selectedProduct?.title}</h1>
             <p className="text-gray-700 mb-6">{selectedProduct?.description}</p>
+          </div>
+          <div className="w-1/2 h-full md:pl-8 flex flex-col gap-4 justify-start p-12 pb-0 items-start">
 
             {product.subcategories && (
               <div className="flex w-full justify-start gap-4 flex-wrap">
@@ -133,11 +133,10 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
                     onClick={() => setActiveCategory(subcategory)}
                   >
                     <p
-                      className={`text-pinkcity-dark min-w-5/12 px-6 py-2 flex justify-center items-center border border-pinkcity-dark rounded-xl ${
-                        subcategory === activeCategory
+                      className={`text-pinkcity-dark min-w-5/12 px-6 py-2 flex justify-center items-center border border-pinkcity-dark rounded-xl ${subcategory === activeCategory
                           ? "bg-pinkcity-dark text-white"
                           : "bg-white text-pinkcity-dark"
-                      }`}
+                        }`}
                     >
                       {subcategory}
                     </p>
@@ -146,7 +145,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
               </div>
             )}
             {activeProducts && (
-              <div className="w-full flex flex-wrap gap-4 mt-6">
+              <div className="w-full flex flex-wrap gap-4 mt-6 min-h-6/10 overflow-y-auto">
                 {activeProducts.map((item) => (
                   <button
                     key={item.title}
@@ -154,14 +153,16 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
                     className="w-1/5"
                   >
                     <div
-                      className={`flex flex-col gap-2 justify-center items-center p-3 ${
-                        item == selectedProduct ? "bg-[#F35C81]/13" : ""
-                      }`}
+                      className={`flex flex-col gap-2 justify-center items-center p-3 ${item == selectedProduct ? "bg-[#F35C81]/13" : ""
+                        }`}
                     >
-                      <div className={`w-10/12 opacity-100`}>
+                      <div className={`min-w-10/12 opacity-100`}>
                         <Image src={item.image} alt={item.title} />
                       </div>
-                      <p className="text-center text-xs">{item.title}</p>
+                      <p>
+                        {item.title.split("  ").map((word) => <p className="text-center text-xs">{word}</p>)}
+                      </p>
+
                     </div>
                   </button>
                 ))}
