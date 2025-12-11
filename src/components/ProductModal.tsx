@@ -33,6 +33,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [activeProducts, setActiveProducts] = useState<selectedProduct[]>([]);
 
+  const [animationPhase, setAnimationPhase] = useState<'idle' | 'exiting' | 'entering'>('idle');
+
   useEffect(() => {
     setActiveCategory(product.subcategories?.[0] ?? "");
   }, [product]);
@@ -49,29 +51,86 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
     }
   }, [activeCategory, product.items]);
 
+  const handleProductChange = (newProduct: selectedProduct) => {
+    if (newProduct.title === selectedProduct?.title) return;
+
+    // Stage 1: Exit (Slide Left, Rotate CCW, Fade Out)
+    setAnimationPhase('exiting');
+
+    setTimeout(() => {
+      // Stage 2: Swap Data and Reset Position (Instant Jump to Right)
+      setSelectedProduct(newProduct);
+      setAnimationPhase('entering'); // This will momentarily render with no transition due to key change or strict ordering, but we need to ensure the "start" position of enter is applied.
+
+      // We rely on the CSS class logic:
+      // If 'entering', we want to start at Translate Right + Rotate CW (so it can rotate CCW to 0).
+      // But we need a frame to apply that starting position before transitioning to idle.
+      // Actually, simply resetting to 'idle' after a small delay will trigger the transition from 'entering' styles to 'idle' styles.
+
+    }, 300);
+  };
+
+  // To make the "Enter" animation work cleanly with React state:
+  // We need an explicit "start enter" state and an "end enter" (idle) state.
+  // BUT simplified approach:
+  // 1. 'exiting': style = transform left
+  // 2. 'entering': style = transform right (no transition? or transition from left? No, we want jump).
+  //    Actually, if we just switch data and use a KEY on the div, React will remount it.
+  //    If we remount it, we can use a CSS animation `animate-wheel-in`.
+  //    That is much simpler than managing complex state phases.
+  //    Let's try the key approach combined with animation classes.
+
+  // Revised approach inside this Replacement: switch to keyed div with animation classes?
+  // User asked for "translating left... rotating anticlockwise".
+  // Let's stick to the state phase control for precision.
+
+  // Refined Logic using useEffect for the 'entering' -> 'idle' step:
+  useEffect(() => {
+    if (animationPhase === 'entering') {
+      // We are at "Start Position" (Right side).
+      // Wait a tick then move to "End Position" (Center).
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setAnimationPhase('idle');
+        });
+      });
+    }
+  }, [animationPhase]);
+
+  /* ... setNextItem / setPrevItem ... */
   const setNextItem = () => {
-    setSelectedProduct((prev) => {
-      if (!prev) return prev;
-      const currentIndex = activeProducts.findIndex(
-        (item) => item.title === prev.title
-      );
-      const nextIndex = (currentIndex + 1) % activeProducts.length;
-      return activeProducts[nextIndex];
-    });
+    if (!selectedProduct) return;
+    const currentIndex = activeProducts.findIndex(
+      (item) => item.title === selectedProduct.title
+    );
+    const nextIndex = (currentIndex + 1) % activeProducts.length;
+    handleProductChange(activeProducts[nextIndex]);
   };
+
   const setPrevItem = () => {
-    setSelectedProduct((prev) => {
-      if (!prev) return prev;
-      const currentIndex = activeProducts.findIndex(
-        (item) => item.title === prev.title
-      );
-      let nextIndex = (currentIndex - 1) % activeProducts.length;
-      if (nextIndex < 0) {
-        nextIndex = activeProducts.length - 1;
-      }
-      return activeProducts[nextIndex];
-    });
+    if (!selectedProduct) return;
+    const currentIndex = activeProducts.findIndex(
+      (item) => item.title === selectedProduct.title
+    );
+    let nextIndex = (currentIndex - 1) % activeProducts.length;
+    if (nextIndex < 0) {
+      nextIndex = activeProducts.length - 1;
+    }
+    handleProductChange(activeProducts[nextIndex]);
   };
+
+  // Helper to determine classes based on phase
+  const getTransformClasses = () => {
+    switch (animationPhase) {
+      case 'exiting':
+        return 'opacity-0 -translate-x-full -rotate-180 transition-all duration-1000 ease-in-out'; // Move Left, Rotate CCW
+      case 'entering':
+        return 'opacity-0 translate-x-full rotate-180 transition-none'; // Start at Right, Rotated CW (so it can rotate CCW to 0)
+      case 'idle':
+        return 'opacity-100 translate-x-0 rotate-0 transition-all duration-1000 ease-out'; // Move to Center, Rotate to 0
+    }
+  };
+
   return (
     <div
       className="fixed inset-0 z-50 flex justify-center items-center"
@@ -101,13 +160,17 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
                   <Image src={Arrow} alt="Arrow" />
                 </div>
               </button>
-              <div className="relative w-8/12 aspect-square">
-                <Image
-                  src={selectedProduct?.image || product.image}
-                  alt={product.title}
-                  className={`${isMobile ? "scale-100" : "scale-125"}`}
-                  fill
-                />
+              <div className="relative w-8/12 aspect-square overflow-hidden rounded-full"> {/* Overflow hidden to mask the slide */}
+                <div
+                  className={`w-full h-full relative transform ${getTransformClasses()}`}
+                >
+                  <Image
+                    src={selectedProduct?.image || product.image}
+                    alt={product.title}
+                    className={`${isMobile ? "scale-100" : "scale-125"}`}
+                    fill
+                  />
+                </div>
               </div>
               <button
                 className="w-2/12 flex justify-center items-center"
@@ -152,7 +215,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
                 {activeProducts.map((item) => (
                   <button
                     key={`${item.title}-${item.image}-${item.parentCategory}`}
-                    onClick={() => setSelectedProduct(item)}
+                    onClick={() => handleProductChange(item)}
                     className={`${isMobile ? "w-1/4" : "w-1/5"}`}
                   >
                     <div
