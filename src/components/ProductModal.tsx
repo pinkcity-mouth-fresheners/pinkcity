@@ -79,7 +79,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
       style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
     >
       <div
-        className={`${isMobile ? "w-11/12 max-h-[90vh]" : "w-10/12 max-h-9/10"} rounded-[25px] p-1 bg-gradient-border overflow-y-auto flex items-stretch`}
+        className={`${isMobile ? "w-11/12 max-h-[90vh]" : "w-10/12 max-h-9/10"} rounded-[25px] p-1 bg-gradient-border overflow-y-auto`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className={`bg-white ${isMobile ? "p-4" : "p-8"} rounded-[22px] flex flex-col md:flex-row items-start justify-around w-full`}>

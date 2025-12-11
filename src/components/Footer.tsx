@@ -26,7 +26,7 @@ const Footer = () => {
               aria-label="Follow PinkCity Mouth Freshener on Instagram"
             >
               <div className="bg-pinkcity-dark p-4 rounded-lg hover:bg-pinkcity transition-colors">
-                <FontAwesomeIcon icon={faInstagram} size="2x" color="black" />
+                <FontAwesomeIcon icon={faInstagram} size="2x" color="white" />
               </div>
             </a>
             <a
@@ -36,7 +36,7 @@ const Footer = () => {
               aria-label="Follow PinkCity Mouth Freshener on Facebook"
             >
               <div className="bg-pinkcity-dark p-4 rounded-lg hover:bg-pinkcity transition-colors">
-                <FontAwesomeIcon icon={faFacebook} size="2x" color="black" />
+                <FontAwesomeIcon icon={faFacebook} size="2x" color="white" />
               </div>
             </a>
           </div>

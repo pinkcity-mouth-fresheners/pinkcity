@@ -25,9 +25,8 @@ const Header = ({ onBrochureClick }: { onBrochureClick: () => void }) => {
   return (
     <>
       <header
-        className={`w-screen flex items-center justify-between fixed bg-white/80 z-30 backdrop-blur-lg shadow-xs ${
-          isMobile ? "p-2 px-4 text-xs" : "p-3 px-10 text-sm"
-        }`}
+        className={`w-screen flex items-center justify-between fixed bg-white/80 z-30 backdrop-blur-lg shadow-xs ${isMobile ? "p-2 px-4 text-xs" : "p-3 px-10 text-sm"
+          }`}
         role="banner"
       >
         <div className={`overflow-clip aspect-[301/72] ${isMobile ? `w-1/` : `w-1/5`}`}>
@@ -36,7 +35,7 @@ const Header = ({ onBrochureClick }: { onBrochureClick: () => void }) => {
             className="cursor-pointer"
             aria-label="PinkCity Mouth Freshener - Home"
           >
-            <Image src={Logo} alt="PinkCity Mouth Freshener Logo" className={`${isMobile ? `w-1/3` : `w-2/5`}`}/>
+            <Image src={Logo} alt="PinkCity Mouth Freshener Logo" className={`${isMobile ? `w-1/3` : `w-2/5`}`} priority />
           </a>
         </div>
         {isMobile ? (
@@ -93,15 +92,13 @@ const Header = ({ onBrochureClick }: { onBrochureClick: () => void }) => {
       </header>
       {isMobile && (
         <div
-          className={`fixed inset-0 z-50 bg-[rgba(0,0,0,0.5)] transition-opacity duration-300 ${
-            isDrawerOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
+          className={`fixed inset-0 z-50 bg-[rgba(0,0,0,0.5)] transition-opacity duration-300 ${isDrawerOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
           onClick={() => setIsDrawerOpen(false)}
         >
           <div
-            className={`fixed top-0 right-0 h-full w-3/5 bg-white text-xl pt-10 shadow-lg z-40 transform transition-transform duration-300 ${
-              isDrawerOpen ? "translate-x-0" : "translate-x-full"
-            }`}
+            className={`fixed top-0 right-0 h-full w-3/5 bg-white text-xl pt-10 shadow-lg z-40 transform transition-transform duration-300 ${isDrawerOpen ? "translate-x-0" : "translate-x-full"
+              }`}
             onClick={(e) => e.stopPropagation()}
           >
             <button

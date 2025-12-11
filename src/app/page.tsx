@@ -13,9 +13,10 @@ import FAQ from "@/outlets/FAQ";
 import Banner from "../../public/multimedia/banner.svg";
 import Banner2 from "../../public/multimedia/banner_2.svg";
 import Header from '@/components/Header';
-import { MobileProvider, useMobile } from '@/components/MobileProvider';
+import { MobileProvider, useMobile, useMobileInitialized } from '@/components/MobileProvider';
 import Footer from '@/components/Footer';
 import Chatbot from '@/components/Chatbot';
+import LoadingScreen from '@/components/LoadingScreen';
 
 const BrochureOverlay = dynamic(() => import('@/components/BrochureOverlay'), { ssr: false });
 
@@ -52,11 +53,37 @@ const PageContent = () => {
       <SocialMediaSection />
       <FAQ />
       <ContactUs />
-      <Footer/>
+      <Footer />
       <Chatbot />
     </main>
   );
 }
+
+const AppShell = ({
+  children,
+  onBrochureClick,
+  isBrochureOpen,
+  onBrochureClose,
+}: {
+  children: React.ReactNode;
+  onBrochureClick: () => void;
+  isBrochureOpen: boolean;
+  onBrochureClose: () => void;
+}) => {
+  const isInitialized = useMobileInitialized();
+
+  if (!isInitialized) {
+    return <LoadingScreen />;
+  }
+
+  return (
+    <>
+      <Header onBrochureClick={onBrochureClick} />
+      {isBrochureOpen && <BrochureOverlay onClose={onBrochureClose} />}
+      {children}
+    </>
+  );
+};
 
 export default function Home() {
   const [isBrochureOpen, setIsBrochureOpen] = useState(false);
@@ -66,9 +93,13 @@ export default function Home() {
 
   return (
     <MobileProvider>
-      <Header onBrochureClick={openBrochure} />
-      {isBrochureOpen && <BrochureOverlay onClose={closeBrochure} />}
-      <PageContent />
+      <AppShell
+        onBrochureClick={openBrochure}
+        isBrochureOpen={isBrochureOpen}
+        onBrochureClose={closeBrochure}
+      >
+        <PageContent />
+      </AppShell>
     </MobileProvider>
   );
 }
