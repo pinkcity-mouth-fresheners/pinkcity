@@ -23,6 +23,8 @@ export const metadata: Metadata = {
     "mouth freshener manufacturer",
     "wholesale mouth freshener",
     "mouth freshener supplier",
+    "best mouth freshener brands in Rajasthan India popular brands mouth freshener Rajasthan",
+    "best selling mouth freshener brands in India that are commonly available in Rajasthan"
   ],
   authors: [{ name: "PinkCity Mouth Freshener" }],
   creator: "PinkCity Mouth Freshener",
