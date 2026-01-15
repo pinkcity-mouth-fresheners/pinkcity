@@ -7,16 +7,17 @@ interface ProductBannerProps {
   description: string;
   image: StaticImageData;
   bgColor: string;
+  imageClass: string;
   titleBgColor: string;
   alt?: string;
 }
 
-const ProductBanner: React.FC<ProductBannerProps> = ({ title, description, image, bgColor, titleBgColor, alt }) => {
+const ProductBanner: React.FC<ProductBannerProps> = ({ title, description, image, bgColor, imageClass, titleBgColor, alt }) => {
   const defaultAlt = `PinkCity ${title} - Premium mouth freshener product by Jaipur's finest manufacturer`;
   const isMobile = useMobile();
   return (
     <section className={`w-full flex justify-baseline ${bgColor} ${isMobile ? 'flex-col-reverse pt-6' : ''}`}>
-      <div className={`${isMobile ? "w-full"  : "w-1/2"} relative overflow-hidden translate-y-[18%]`}>
+      <div className={`${isMobile ? "w-full"  : "w-1/2"} ${imageClass}`}>
         <Image
           src={image}
           alt={alt || defaultAlt}
