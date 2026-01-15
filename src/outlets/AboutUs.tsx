@@ -1,56 +1,55 @@
 import Image from "next/image";
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useRef } from "react";
 import AboutUsLogo from "../../public/images/about_us.svg";
 import Logo from "../../public/images/logo.png"
-import AboutUs1 from "../../public/multimedia/about_us_1.png";
-import AboutUs2 from "../../public/multimedia/about_us_2.png";
+import AboutUsImage from "../../public/multimedia/AboutUs.svg";
 import SectionHeading from "@/components/SectionHeading";
 import { useMobile } from "@/components/MobileProvider";
 import AboutBanner from "./AboutBanner";
 
 const AboutUs = () => {
-  const [isInView, setIsInView] = useState(false);
+  // const [isInView, setIsInView] = useState(false);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobile();
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const philosophyImages = [AboutUs1, AboutUs2];
+  // const [currentSlide, setCurrentSlide] = useState(0);
+  // const philosophyImages = [AboutUs1, AboutUs2];
 
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) =>
-      prev === philosophyImages.length - 1 ? 0 : prev + 1
-    );
-  }, [philosophyImages.length]);
+  // const nextSlide = useCallback(() => {
+  //   setCurrentSlide((prev) =>
+  //     prev === philosophyImages.length - 1 ? 0 : prev + 1
+  //   );
+  // }, [philosophyImages.length]);
 
-  useEffect(() => {
-    if (isMobile) {
-      const slideInterval = setInterval(nextSlide, 2000);
-      return () => clearInterval(slideInterval);
-    }
-  }, [isMobile, nextSlide]);
+  // useEffect(() => {
+  //   if (isMobile) {
+  //     const slideInterval = setInterval(nextSlide, 2000);
+  //     return () => clearInterval(slideInterval);
+  //   }
+  // }, [isMobile, nextSlide]);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setTimeout(() => {
-          setIsInView(entry.isIntersecting);
-        }, 500); // Delay of 500ms
-      },
-      {
-        threshold: 0.2, // Trigger when 30% of the element is visible
-        rootMargin: "0px 0px -10% 0px", // Trigger slightly before the element is fully visible
-      }
-    );
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     ([entry]) => {
+  //       setTimeout(() => {
+  //         setIsInView(entry.isIntersecting);
+  //       }, 500); // Delay of 500ms
+  //     },
+  //     {
+  //       threshold: 0.2, // Trigger when 30% of the element is visible
+  //       rootMargin: "0px 0px -10% 0px", // Trigger slightly before the element is fully visible
+  //     }
+  //   );
 
-    if (imageContainerRef.current) {
-      observer.observe(imageContainerRef.current);
-    }
+  //   if (imageContainerRef.current) {
+  //     observer.observe(imageContainerRef.current);
+  //   }
 
-    return () => {
-      if (imageContainerRef.current) {
-        observer.unobserve(imageContainerRef.current);
-      }
-    };
-  }, []);
+  //   return () => {
+  //     if (imageContainerRef.current) {
+  //       observer.unobserve(imageContainerRef.current);
+  //     }
+  //   };
+  // }, []);
 
   return (
     <div
@@ -248,7 +247,7 @@ const AboutUs = () => {
           id="aboutUsImages"
           ref={imageContainerRef}
         >
-          {isMobile ? (
+          {/* {isMobile ? (
             <div className="relative w-2/3 mx-auto mb-8 px-4">
               {philosophyImages.map((src, index) => (
                 <div
@@ -279,7 +278,21 @@ const AboutUs = () => {
                 className="div2 rounded-4xl"
               />
             </div>
-          )}
+          )} */}
+          <div className={`bg-[radial-gradient(circle,_#FE5E85,_#D93A61)] w-full h-full pt-48 px-48 rounded-[18px] overflow-hidden relative ${isMobile ? "mb-8" : ""}`}>
+            <div className="relative z-20 aspect-square">
+              <Image src={AboutUsImage} alt="PinkCity Mouth Freshener traditional mukhwas manufacturing process in Jaipur" className={`w-full h-full object-contain absolute  ${isMobile ? "scale-[15] -translate-y-22 translate-x-10" : "scale-[2] -translate-y-1/4 translate-x-1/2"}`} />
+              <Image src={AboutUsImage} alt="PinkCity Mouth Freshener traditional mukhwas manufacturing process in Jaipur" className={`w-full h-full object-contain -translate-x-1/3 -rotate-20 ${isMobile ? "scale-[15] -translate-y-15 -translate-x-10" : "scale-[2]"}`} />
+
+            </div>
+            {/* Concentric Circles at Bottom Corner */}
+            <div className="absolute -bottom-1 -right-1 w-0 h-0 flex items-center justify-center z-10">
+              <div className={` ${isMobile ? "w-[47.5rem]" : "w-[77.5rem]"} aspect-square rounded-full border-16 border-white/10 shrink-0`} />
+              <div className={` ${isMobile ? "w-[37.5rem]" : "w-[67.5rem]"} aspect-square rounded-full border-16 border-white/10 absolute shrink-0`} />
+              <div className={` ${isMobile ? "w-[27.5rem]" : "w-[57.5rem]"} aspect-square rounded-full border-16 border-white/10 absolute shrink-0`} />
+              <div className={` ${isMobile ? "w-[17.5rem]" : "w-[47.5rem]"} aspect-square rounded-full border-16 border-white/10 absolute shrink-0`} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

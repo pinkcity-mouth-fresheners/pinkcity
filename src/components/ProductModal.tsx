@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useMobile } from "./MobileProvider";
 import Arrow from "../../public/images/arrow.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 interface ProductModalProps {
   product: {
@@ -138,9 +140,15 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
       style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
     >
       <div
-        className={`${isMobile ? "w-11/12 max-h-[90vh]" : "w-10/12 max-h-9/10"} rounded-[25px] p-1 bg-gradient-border overflow-y-auto`}
+        className={`${isMobile ? "w-11/12 max-h-[90vh]" : "w-10/12 max-h-9/10"} rounded-[25px] p-1 bg-gradient-border overflow-y-auto relative`}
         onClick={(e) => e.stopPropagation()}
       >
+        <button
+          onClick={onClose}
+          className="absolute top-6 right-6 z-[60] flex items-center justify-center text-black"
+        >
+          <FontAwesomeIcon icon={faXmark} className="text-2xl" />
+        </button>
         <div className={`bg-white ${isMobile ? "p-4" : "p-8"} rounded-[22px] flex flex-col md:flex-row items-start justify-around w-full`}>
           <div className={`${isMobile ? "w-full gap-4 h-auto" : "w-1/2 gap-8 h-full"} flex flex-col justify-center items-start`}>
             <div className="min-w-4/5">
