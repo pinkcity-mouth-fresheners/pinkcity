@@ -199,14 +199,15 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
           <div className={`${isMobile ? "w-full pl-0 p-4 pt-0 h-auto" : "w-1/2 pl-8 p-12 h-full"} flex flex-col gap-4 justify-start pb-0 items-start`}>
 
             {product.subcategories && (
-              <div className="flex w-full justify-start gap-4 flex-wrap">
+              <div className={`flex w-full justify-start gap-4 ${isMobile ? "overflow-x-auto pb-2 flex-nowrap" : "flex-wrap"}`}>
                 {product.subcategories.map((subcategory) => (
                   <button
                     key={subcategory}
                     onClick={() => setActiveCategory(subcategory)}
+                    className="flex-shrink-0"
                   >
                     <p
-                      className={`text-pinkcity-dark min-w-5/12 flex justify-center items-center border border-pinkcity-dark rounded-xl ${isMobile ? "text-xs px-3 py-1" : "px-6 py-2"
+                      className={`text-pinkcity-dark min-w-[100px] flex justify-center items-center border border-pinkcity-dark rounded-xl ${isMobile ? "text-xs px-3 py-1" : "px-6 py-2"
                         } ${subcategory === activeCategory
                           ? "bg-pinkcity-dark text-white"
                           : "bg-white text-pinkcity-dark"
@@ -219,7 +220,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
               </div>
             )}
             {activeProducts && (
-              <div className={`w-full flex flex-wrap gap-4 mt-6 ${isMobile ? "min-h-0 h-auto" : "min-h-6/10 overflow-y-auto"}`}>
+              <div className={`w-full flex flex-wrap gap-4 mt-6 ${isMobile ? "max-h-[40vh] overflow-y-auto" : "min-h-6/10 overflow-y-auto"}`}>
                 {activeProducts.map((item) => (
                   <button
                     key={`${item.title}-${item.image}-${item.parentCategory}`}
