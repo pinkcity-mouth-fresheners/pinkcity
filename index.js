@@ -13,16 +13,7 @@ const allowed = [
 ];
 
 app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowed.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("not allowed"));
-      }
-    },
-  })
+  cors({})
 );
 
 app.post("/contact", async (req, res) => {
