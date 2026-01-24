@@ -12,46 +12,59 @@ interface ProductModalProps {
     image: StaticImageData;
     description: string;
     subcategories?: string[];
-    items: {
-      title: string;
-      image: StaticImageData;
-      description: string;
-      parentCategory?: string;
-    }[];
+    items: selectedProduct[];
   };
   onClose: () => void;
+  selectedProductSample?: selectedProduct
 }
 
-interface selectedProduct {
+export interface selectedProduct {
   title: string;
   image: StaticImageData;
   description: string;
   parentCategory?: string;
 }
-const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
+const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedProductSample }) => {
   const isMobile = useMobile();
-  const [selectedProduct, setSelectedProduct] =
-    useState<selectedProduct | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string>("");
-  const [activeProducts, setActiveProducts] = useState<selectedProduct[]>([]);
+  /* State Initialization with logic to respect selectedProductSample */
+  const [activeCategory, setActiveCategory] = useState<string>(() => {
+    if (selectedProductSample?.parentCategory) {
+      return selectedProductSample.parentCategory;
+    }
+    return product.subcategories?.[0] ?? "";
+  });
+
+  const [selectedProduct, setSelectedProduct] = useState<selectedProduct | null>(() => {
+    if (selectedProductSample) return selectedProductSample;
+
+    // Fallback default logic if no sample provided
+    const defaultCategory = product.subcategories?.[0] ?? "";
+    if (defaultCategory) {
+      return product.items.find(item => item.parentCategory === defaultCategory) || null;
+    }
+    return product.items[0] || null;
+  });
+
+  // Derived state for active products based on category
+  const activeProducts = React.useMemo(() => {
+    if (activeCategory) {
+      return product.items.filter((item) => item.parentCategory === activeCategory);
+    }
+    return product.items;
+  }, [activeCategory, product.items]);
 
   const [animationPhase, setAnimationPhase] = useState<'idle' | 'exiting' | 'entering'>('idle');
 
-  useEffect(() => {
-    setActiveCategory(product.subcategories?.[0] ?? "");
-  }, [product]);
-  useEffect(() => {
-    if (activeCategory) {
-      const filteredProducts = product.items.filter(
-        (item) => item.parentCategory === activeCategory
-      );
-      setActiveProducts(filteredProducts);
-      setSelectedProduct(filteredProducts[0] || null);
-    } else {
-      setActiveProducts(product.items);
-      setSelectedProduct(product.items[0]);
+  const handleCategoryChange = (category: string) => {
+    if (category === activeCategory) return;
+    setActiveCategory(category);
+
+    // When category changes, default to first item in that category
+    const productsInNewCategory = product.items.filter(item => item.parentCategory === category);
+    if (productsInNewCategory.length > 0) {
+      handleProductChange(productsInNewCategory[0]);
     }
-  }, [activeCategory, product.items]);
+  };
 
   const handleProductChange = (newProduct: selectedProduct) => {
     if (newProduct.title === selectedProduct?.title) return;
@@ -62,13 +75,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
     setTimeout(() => {
       // Stage 2: Swap Data and Reset Position (Instant Jump to Right)
       setSelectedProduct(newProduct);
-      setAnimationPhase('entering'); // This will momentarily render with no transition due to key change or strict ordering, but we need to ensure the "start" position of enter is applied.
-
-      // We rely on the CSS class logic:
-      // If 'entering', we want to start at Translate Right + Rotate CW (so it can rotate CCW to 0).
-      // But we need a frame to apply that starting position before transitioning to idle.
-      // Actually, simply resetting to 'idle' after a small delay will trigger the transition from 'entering' styles to 'idle' styles.
-
+      setAnimationPhase('entering');
     }, 300);
   };
 
@@ -203,7 +210,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
                 {product.subcategories.map((subcategory) => (
                   <button
                     key={subcategory}
-                    onClick={() => setActiveCategory(subcategory)}
+                    onClick={() => handleCategoryChange(subcategory)}
                     className="flex-shrink-0"
                   >
                     <p

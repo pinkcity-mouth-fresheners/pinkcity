@@ -5,11 +5,15 @@ import Star from "../../public/images/star.svg";
 type Props = {
   text: string;
   imageSrc: StaticImageData;
+  onClick?: () => void;
 };
 
-const TopSellerMobileItem = ({ text, imageSrc }: Props) => {
+const TopSellerMobileItem = ({ text, imageSrc, onClick }: Props) => {
   return (
-    <div className="w-full h-48 aspect-square relative bg-[radial-gradient(circle,_#FE5E85,_#D93A61)] rounded-[20px] overflow-hidden">
+    <div
+      className="w-full h-48 aspect-square relative bg-[radial-gradient(circle,_#FE5E85,_#D93A61)] rounded-[20px] overflow-hidden cursor-pointer"
+      onClick={onClick}
+    >
       <Image
         src={Star}
         alt="star"

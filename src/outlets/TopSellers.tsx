@@ -6,6 +6,7 @@ import Banarasi from "../../public/multimedia/banarasi_paan.png";
 import CalcultiPaanGold from "../../public/multimedia/calcutti_pan_gold.png";
 import { useMobile } from "@/components/MobileProvider";
 import TopSellerMobileItem from "@/components/TopSellerMobileItem";
+import { selectedProduct } from "@/components/ProductModal";
 
 import PaanMukhwas from "../../public/multimedia/products/paan_mukhwas_main.png";
 import CalcuttiPanGold from "../../public/multimedia/products/Paan Mukhwas (without Supari)/Calcutti Paan Gold.png";
@@ -34,9 +35,9 @@ import MadhuramPaan from "../../public/multimedia/products/Paan Mukhwas (with Su
 import KesarPaanSpecial from "../../public/multimedia/products/Paan Mukhwas (with Supari)/Kesar Paan Special.png";
 
 const topSellersData = [
-  { text: "Banarsi Paan", imageSrc: Banarasi, selectedProduct: "Banarsi  Paan"},
-  { text: "Calcutti Paan Gold", imageSrc: CalcultiPaanGold, selectedProduct : "Calcutti  Paan Gold"},
-  { text: "Dry Paan", imageSrc: DryPaan , selectedProduct : "Dry  Paan" },
+  { text: "Banarsi  Paan", imageSrc: Banarasi, selectedProduct: "Banarsi  Paan" },
+  { text: "Calcutti  Paan Gold", imageSrc: CalcultiPaanGold, selectedProduct: "Calcutti  Paan Gold" },
+  { text: "Dry  Paan", imageSrc: DryPaan, selectedProduct: "Dry  Paan" },
 ];
 
 const product = {
@@ -221,13 +222,17 @@ const product = {
 const TopSellers = () => {
   const isMobile = useMobile();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSample, setSelectedSample] = useState<selectedProduct | null>(null);
 
-  const openModal = () => {
+  const openModal = (productTitle: string) => {
+    const foundProduct = product.items.find((item) => item.title === productTitle);
+    setSelectedSample(foundProduct || null);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setSelectedSample(null);
   };
   return (
     <section
@@ -258,7 +263,7 @@ const TopSellers = () => {
               key={index}
               text={item.text}
               imageSrc={item.imageSrc}
-              onClick={openModal}
+              onClick={() => openModal(item.selectedProduct)}
             />
           ))
         ) : (
@@ -266,22 +271,30 @@ const TopSellers = () => {
             <TopSellerItem
               text={topSellersData[0].text}
               imageSrc={topSellersData[0].imageSrc}
-              onClick={openModal}
+              onClick={() => openModal(topSellersData[0].selectedProduct)}
             />
             <div className="grid grid-cols-2 gap-4 -mt-4">
               <TopSellerMobileItem
                 text={topSellersData[1].text}
                 imageSrc={topSellersData[1].imageSrc}
+                onClick={() => openModal(topSellersData[1].selectedProduct)}
               />
               <TopSellerMobileItem
                 text={topSellersData[2].text}
                 imageSrc={topSellersData[2].imageSrc}
+                onClick={() => openModal(topSellersData[2].selectedProduct)}
               />
             </div>
           </>
         )}
       </div>
-      {isModalOpen && <ProductModal product={product} onClose={closeModal} />}
+      {isModalOpen && (
+        <ProductModal
+          product={product}
+          onClose={closeModal}
+          selectedProductSample={selectedSample || undefined}
+        />
+      )}
     </section>
   );
 };
