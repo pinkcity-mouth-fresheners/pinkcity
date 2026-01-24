@@ -10,9 +10,10 @@ import { useMobile } from "./MobileProvider";
 type Props = {
   text: string;
   imageSrc: StaticImageData;
+  onClick?: () => void;
 };
 
-const TopSellerItem = ({ text, imageSrc }: Props) => {
+const TopSellerItem = ({ text, imageSrc, onClick }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
   const isMobile = useMobile();
   const [initialHeight, setInitialHeight] = useState<number | undefined>(
@@ -28,11 +29,11 @@ const TopSellerItem = ({ text, imageSrc }: Props) => {
 
   return (
     <div
-      className={`${
-        isMobile ? "w-full" : "w-3/12"
-      } flex flex-col justify-start items-center gap-4 pb-4 group`}
+      className={`${isMobile ? "w-full" : "w-3/12"
+        } flex flex-col justify-start items-center gap-4 pb-4 group cursor-pointer`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={onClick}
     >
       <div style={{ minHeight: initialHeight }} className={`relative w-full`}>
         <div className={`w-full bg-white h-0 group-hover:h-full flex justify-center items-center ${!isMobile ? 'transition-all duration-200 delay-[1500ms]' : ''}`}>
@@ -46,9 +47,8 @@ const TopSellerItem = ({ text, imageSrc }: Props) => {
         <div
           ref={containerRef}
           id="container"
-          className={`w-full absolute bottom-0 left-0 rounded-t-[20px] overflow-hidden bg-[radial-gradient(circle,_#FE5E85,_#D93A61)] flex flex-col items-center ${!isMobile ? 'transition-all duration-1500' : ''} ${
-            isHovered ? "" : "pt-20"
-          }
+          className={`w-full absolute bottom-0 left-0 rounded-t-[20px] overflow-hidden bg-[radial-gradient(circle,_#FE5E85,_#D93A61)] flex flex-col items-center ${!isMobile ? 'transition-all duration-1500' : ''} ${isHovered ? "" : "pt-20"
+            }
             ${isMobile ? "aspect-square rounded-[20px]" : ""}
           `}
         >
