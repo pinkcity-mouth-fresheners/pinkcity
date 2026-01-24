@@ -30,7 +30,7 @@ app.post("/contact", async (req, res) => {
     console.log("Received contact form submission");
     const { firstName, lastName, email, phone, message } = req.body;
 
-    if (!firstName || !email || !message) {
+    if (!firstName || !email) {
       return res.status(400).json({ error: "Missing required fields" });
     }
     console.log(process.env.EMAIL_USER, process.env.EMAIL_PASS);
@@ -76,7 +76,7 @@ app.post("/contact", async (req, res) => {
             </tr>
             <tr style="background-color: #f9f9f9;">
               <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Message:</td>
-              <td style="padding: 10px; border: 1px solid #ddd;">${message}</td>
+              <td style="padding: 10px; border: 1px solid #ddd;">${message || "No Message from User"}</td>
             </tr>
           </table>
         </div>
