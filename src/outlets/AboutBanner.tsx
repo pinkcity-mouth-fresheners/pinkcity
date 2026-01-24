@@ -8,7 +8,7 @@ const AboutBanner = () => {
   const isMobile = useMobile();
 
   return (
-    <div className={`${isMobile ? 'p-4' : 'mt-12  bg-pinkcity-dark'}`}>
+    <div id="about-banner" className={`${isMobile ? 'p-4' : 'mt-12  bg-pinkcity-dark'}`}>
       <div className={isMobile ? 'w-[95%] mx-auto bg-pinkcity-dark rounded-2xl overflow-hidden' : 'w-full flex flex-col'}>
         <Image src={DesignBanner} alt="Design Banner" layout="responsive" />
         <div className={isMobile ? '-mt-13 z-5' : '-mt-52 xl:-mt-68 z-5'}>
