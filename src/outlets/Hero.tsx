@@ -33,6 +33,7 @@ const Hero = () => {
     const removeStopListeners = () => {
       window.removeEventListener("wheel", stopScroll);
       window.removeEventListener("touchmove", stopScroll);
+      window.removeEventListener("touchstart", stopScroll);
       window.removeEventListener("keydown", stopScroll);
       window.removeEventListener("mousedown", stopScroll);
     };
@@ -55,6 +56,7 @@ const Hero = () => {
     // Add listeners to stop scroll on valid user interaction
     window.addEventListener("wheel", stopScroll, { passive: true });
     window.addEventListener("touchmove", stopScroll, { passive: true });
+    window.addEventListener("touchstart", stopScroll, { passive: true });
     window.addEventListener("keydown", stopScroll);
     window.addEventListener("mousedown", stopScroll);
 

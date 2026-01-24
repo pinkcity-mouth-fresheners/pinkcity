@@ -75,6 +75,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 
 config.autoAddCss = false; // Disable Font Awesome's automatic CSS injection
 
+import AnalyticsProvider from "./AnalyticsProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -187,6 +188,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${poppins.variable} ${bentham.variable}`}>
+        <AnalyticsProvider />
         {children}
       </body>
     </html>
