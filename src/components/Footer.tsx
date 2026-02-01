@@ -13,10 +13,10 @@ const Footer = () => {
 
   return (
     <footer className="bg-white text-black flex flex-col items-center justify-center p-16" role="contentinfo">
-      <div className={`w-full flex items-start justify-between ${isMobile ? "flex-col gap-4" : "flex-row" }`}>
+      <div className={`w-full flex items-start justify-between ${isMobile ? "flex-col gap-4" : "flex-row"}`}>
         <div className={`flex flex-col ${isMobile ? "items-center pb-4" : "items-start"} gap-10`}>
           <div className="w-full flex items-start justify-start">
-            <Image src={Logo} alt="PinkCity Mouth Freshener Logo" className={`h-auto ${isMobile ? "w-full" : "w-1/5"}`}/>
+            <Image src={Logo} alt="PinkCity Mouth Freshener Logo" className={`h-auto ${isMobile ? "w-full" : "w-1/5"}`} />
           </div>
           <div className={`flex gap-4 ${!isMobile ? "ps-4" : "justify-center"}`} role="navigation" aria-label="Social media links">
             <a
@@ -41,7 +41,7 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className={`flex opacity-90 min-w-1/3 ${isMobile ? "flex-col gap-14" : "flex-row gap-24" }`}>
+        <div className={`flex opacity-90 min-w-1/3 ${isMobile ? "flex-col gap-14" : "flex-row gap-24"}`}>
           <div className="text-left flex flex-col gap-4">
             <h4 className="font-bold text-lg mb-4">Company</h4>
             <a href="#about" className="text-sm hover:text-pinkcity transition-colors">About Us</a>
@@ -56,7 +56,7 @@ const Footer = () => {
             <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Saunf Products</a>
             <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Supari Products</a>
           </div>
-          <div className="text-left flex flex-col gap-4">
+          <div className="sr-only">
             <h4 className="font-bold text-lg mb-4">Keywords</h4>
             <p className="text-xs">Mouth Freshener Jaipur</p>
             <p className="text-xs">Mukhwas Manufacturer</p>

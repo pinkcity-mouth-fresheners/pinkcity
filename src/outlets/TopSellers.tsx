@@ -35,9 +35,9 @@ import MadhuramPaan from "../../public/multimedia/products/Paan Mukhwas (with Su
 import KesarPaanSpecial from "../../public/multimedia/products/Paan Mukhwas (with Supari)/Kesar Paan Special.png";
 
 const topSellersData = [
-  { text: "Banarsi  Paan", imageSrc: Banarasi, selectedProduct: "Banarsi  Paan" },
-  { text: "Calcutti  Paan Gold", imageSrc: CalcultiPaanGold, selectedProduct: "Calcutti  Paan Gold" },
-  { text: "Dry  Paan", imageSrc: DryPaan, selectedProduct: "Dry  Paan" },
+  { text: "Banarsi Paan", imageSrc: Banarasi, selectedProduct: "Banarsi  Paan" },
+  { text: "Calcutti Paan Gold", imageSrc: CalcultiPaanGold, selectedProduct: "Calcutti  Paan Gold" },
+  { text: "Dry Paan", imageSrc: DryPaan, selectedProduct: "Dry  Paan" },
 ];
 
 const product = {
