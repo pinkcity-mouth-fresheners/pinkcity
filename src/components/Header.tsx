@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from "react";
 import { useMobile } from "./MobileProvider";
 import Image from "next/image";

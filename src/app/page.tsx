@@ -1,6 +1,4 @@
-'use client';
-import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
+import React from 'react';
 import AboutBanner from "@/outlets/AboutBanner";
 import AboutUs from "@/outlets/AboutUs";
 import ContactUs from "@/outlets/ContactUs";
@@ -12,13 +10,8 @@ import TopSellers from "@/outlets/TopSellers";
 import FAQ from "@/outlets/FAQ";
 import Banner from "../../public/multimedia/banner.svg";
 import Banner2 from "../../public/multimedia/banner_2.svg";
-import Header from '@/components/Header';
-import { MobileProvider, useMobile, useMobileInitialized } from '@/components/MobileProvider';
 import Footer from '@/components/Footer';
-import Chatbot from '@/components/Chatbot';
-import LoadingScreen from '@/components/LoadingScreen';
-
-const BrochureOverlay = dynamic(() => import('@/components/BrochureOverlay'), { ssr: false });
+import ClientPageWrapper from '@/components/ClientPageWrapper';
 
 const productBanners = [
   {
@@ -35,18 +28,16 @@ const productBanners = [
     description: "A refreshing burst of mint, fennel, and handpicked spices — thoughtfully blended to invigorate your senses and keep your breath naturally fresh. Our traditional mukhwas represents the finest quality ingredients from Jaipur.",
     image: Banner2,
     bgColor: "bg-[radial-gradient(circle,_#FE5E85,_#D93A61)]",
-        imageClass: `relative overflow-hidden translate-y-[18%]`,
+    imageClass: `relative overflow-hidden translate-y-[18%]`,
     titleBgColor: "bg-[#51914E]",
     alt: "PinkCity Mukhwas - Premium traditional Indian mouth freshener with fennel and spices from Jaipur",
   },
 ];
 
 const PageContent = () => {
-  const isMobile = useMobile();
   return (
-    <main className="mx-auto no-scrollbar max-w-screen">
+    <main className="mx-auto no-scrollbar max-w-screen overflow-x-hidden">
       <Hero />
-      {!isMobile && <AboutBanner />}
       <AboutUs />
       <ProductBanner {...productBanners[0]} />
       <TopSellers />
@@ -56,52 +47,14 @@ const PageContent = () => {
       <FAQ />
       <ContactUs />
       <Footer />
-      <Chatbot />
     </main>
   );
 }
 
-const AppShell = ({
-  children,
-  onBrochureClick,
-  isBrochureOpen,
-  onBrochureClose,
-}: {
-  children: React.ReactNode;
-  onBrochureClick: () => void;
-  isBrochureOpen: boolean;
-  onBrochureClose: () => void;
-}) => {
-  const isInitialized = useMobileInitialized();
-
-  if (!isInitialized) {
-    return <LoadingScreen />;
-  }
-
-  return (
-    <>
-      <Header onBrochureClick={onBrochureClick} />
-      {isBrochureOpen && <BrochureOverlay onClose={onBrochureClose} />}
-      {children}
-    </>
-  );
-};
-
 export default function Home() {
-  const [isBrochureOpen, setIsBrochureOpen] = useState(false);
-
-  const openBrochure = () => setIsBrochureOpen(true);
-  const closeBrochure = () => setIsBrochureOpen(false);
-
   return (
-    <MobileProvider>
-      <AppShell
-        onBrochureClick={openBrochure}
-        isBrochureOpen={isBrochureOpen}
-        onBrochureClose={closeBrochure}
-      >
-        <PageContent />
-      </AppShell>
-    </MobileProvider>
+    <ClientPageWrapper>
+      <PageContent />
+    </ClientPageWrapper>
   );
 }

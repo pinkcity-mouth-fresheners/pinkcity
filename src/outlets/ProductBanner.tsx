@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import Image, { StaticImageData } from "next/image";
 import { useMobile } from "@/components/MobileProvider";
@@ -17,7 +18,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({ title, description, image
   const isMobile = useMobile();
   return (
     <section className={`w-full flex justify-baseline ${bgColor} ${isMobile ? 'flex-col-reverse pt-6' : ''}`}>
-      <div className={`${isMobile ? "w-full"  : "w-1/2"} ${imageClass}`}>
+      <div className={`${isMobile ? "w-full" : "w-1/2"} ${imageClass}`}>
         <Image
           src={image}
           alt={alt || defaultAlt}
@@ -25,8 +26,8 @@ const ProductBanner: React.FC<ProductBannerProps> = ({ title, description, image
           className="object-fill origin-bottom-left"
         />
       </div>
-      <div className={`${isMobile ? "w-full"  : "w-1/2"} text-white flex flex-col items-center justify-center`}>
-        <div className={`h-full ${isMobile ? "w-full"  : "w-3/4"} flex flex-col justify-center ${!isMobile ? "items-start  px-16 pe-0" : "items-center px-6"} gap-12`}>
+      <div className={`${isMobile ? "w-full" : "w-1/2"} text-white flex flex-col items-center justify-center`}>
+        <div className={`h-full ${isMobile ? "w-full" : "w-3/4"} flex flex-col justify-center ${!isMobile ? "items-start  px-16 pe-0" : "items-center px-6"} gap-12`}>
           <div className="relative">
             <div
               className={`absolute inset-0 ${titleBgColor} transform -rotate-2 origin-left`}

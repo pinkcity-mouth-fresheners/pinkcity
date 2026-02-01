@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import DesignBanner from "../../public/images/design_banner.svg";
 import HawMahal from "../../public/images/hawaMahal.svg";
