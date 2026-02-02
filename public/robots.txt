@@ -4,6 +4,7 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admin/
 
 # Sitemap location
 Sitemap: https://www.pinkcitymouthfresheners.com/sitemap.xml
