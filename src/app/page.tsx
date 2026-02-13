@@ -36,7 +36,7 @@ const productBanners = [
 
 const PageContent = () => {
   return (
-    <main className="mx-auto no-scrollbar max-w-screen overflow-x-hidden">
+    <main className="mx-auto no-scrollbar max-w-screen overflow-x-clip">
       <Hero />
       <AboutUs />
       <ProductBanner {...productBanners[0]} />

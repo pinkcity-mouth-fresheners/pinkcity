@@ -67,18 +67,20 @@ const AboutUs = () => {
         <div className="flex flex-row items-start justify-between w-full mt-14">
           {/* Sticky left image — spans both sections */}
           <div
-            className="rounded-r-[50] max-w-1/3 overflow-hidden z-10 sticky top-45 relative"
+            className="max-w-1/3 z-10 sticky top-45 self-start"
           >
-            <Image
-              src={AboutUsLogo}
-              alt="PinkCity Mouth Freshener - Premium Mukhwas Manufacturer in Jaipur Since 1982"
-              className="z-10"
-            />
-            <Image
-              src={Logo}
-              alt="PinkCity Mouth Freshener Logo"
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
-            />
+            <div className="rounded-r-[50] overflow-hidden relative">
+              <Image
+                src={AboutUsLogo}
+                alt="PinkCity Mouth Freshener - Premium Mukhwas Manufacturer in Jaipur Since 1982"
+                className="z-10"
+              />
+              <Image
+                src={Logo}
+                alt="PinkCity Mouth Freshener Logo"
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
+              />
+            </div>
           </div>
           {/* Right column: both text sections stacked */}
           <div className="max-w-3/5 px-18 text-lg py-4 flex flex-col gap-12">
