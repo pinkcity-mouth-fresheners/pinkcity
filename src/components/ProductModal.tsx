@@ -1,5 +1,5 @@
 import { StaticImageData } from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useMobile } from "./MobileProvider";
 import Arrow from "../../public/images/arrow.svg";
@@ -54,6 +54,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
   }, [activeCategory, product.items]);
 
   const [animationPhase, setAnimationPhase] = useState<'idle' | 'exiting' | 'entering'>('idle');
+  const [direction, setDirection] = useState<'next' | 'prev'>('next');
 
   const handleCategoryChange = (category: string) => {
     if (category === activeCategory) return;
@@ -66,14 +67,15 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
     }
   };
 
-  const handleProductChange = (newProduct: selectedProduct) => {
+  const handleProductChange = (newProduct: selectedProduct, dir: 'next' | 'prev' = 'next') => {
     if (newProduct.title === selectedProduct?.title) return;
 
-    // Stage 1: Exit (Slide Left, Rotate CCW, Fade Out)
+    setDirection(dir);
+    // Stage 1: Exit
     setAnimationPhase('exiting');
 
     setTimeout(() => {
-      // Stage 2: Swap Data and Reset Position (Instant Jump to Right)
+      // Stage 2: Swap Data and Reset Position
       setSelectedProduct(newProduct);
       setAnimationPhase('entering');
     }, 300);
@@ -113,7 +115,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
       (item) => item.title === selectedProduct.title
     );
     const nextIndex = (currentIndex + 1) % activeProducts.length;
-    handleProductChange(activeProducts[nextIndex]);
+    handleProductChange(activeProducts[nextIndex], 'next');
   };
 
   const setPrevItem = () => {
@@ -125,18 +127,35 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
     if (nextIndex < 0) {
       nextIndex = activeProducts.length - 1;
     }
-    handleProductChange(activeProducts[nextIndex]);
+    handleProductChange(activeProducts[nextIndex], 'prev');
   };
 
-  // Helper to determine classes based on phase
+  // Keyboard navigation: Left/Right arrow keys
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') {
+        setNextItem();
+      } else if (e.key === 'ArrowLeft') {
+        setPrevItem();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  });
+
+  // Helper to determine classes based on phase and direction
   const getTransformClasses = () => {
+    const isNext = direction === 'next';
     switch (animationPhase) {
       case 'exiting':
-        return 'opacity-0 -translate-x-full -rotate-180 transition-all duration-1000 ease-in-out'; // Move Left, Rotate CCW
+        // Next: exit left, rotate CCW | Prev: exit right, rotate CW
+        return `opacity-0 ${isNext ? '-translate-x-full -rotate-180' : 'translate-x-full rotate-180'} transition-all duration-1000 ease-in-out`;
       case 'entering':
-        return 'opacity-0 translate-x-full rotate-180 transition-none'; // Start at Right, Rotated CW (so it can rotate CCW to 0)
+        // Next: start at right | Prev: start at left (no transition, instant jump)
+        return `opacity-0 ${isNext ? 'translate-x-full rotate-180' : '-translate-x-full -rotate-180'} transition-none`;
       case 'idle':
-        return 'opacity-100 translate-x-0 rotate-0 transition-all duration-1000 ease-out'; // Move to Center, Rotate to 0
+        return 'opacity-100 translate-x-0 rotate-0 transition-all duration-1000 ease-out';
     }
   };
 

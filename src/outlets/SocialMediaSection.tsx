@@ -12,10 +12,21 @@ const SocialMediaSection = () => {
   const [cards, setCards] = useState(videosData.videos);
   const isMobile = useMobile();
   const sectionRef = useRef<HTMLDivElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const playingVideosRef = useRef<Set<HTMLVideoElement>>(new Set());
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const minSwipeDistance = 50;
+
+  const pauseAllVideos = () => {
+    if (cardsContainerRef.current) {
+      cardsContainerRef.current.querySelectorAll('video').forEach((video) => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    }
+  };
 
   const onTouchStartFunc = (e: TouchEvent<HTMLDivElement>) => {
     setTouchEnd(null);
@@ -32,6 +43,9 @@ const SocialMediaSection = () => {
     const isSwipe = Math.abs(distance) > minSwipeDistance;
 
     if (isSwipe) {
+      // Pause all videos before reordering cards
+      pauseAllVideos();
+
       const newCards = [...cards];
       const swipedCard = newCards.pop();
       if (swipedCard) {
@@ -49,9 +63,23 @@ const SocialMediaSection = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsExpanded(true);
+          // Resume videos that were playing before leaving viewport
+          playingVideosRef.current.forEach((video) => {
+            video.play();
+          });
         } else {
           setIsExpanded(false);
           setStartBounce(false);
+          // Pause all playing videos and remember them
+          if (cardsContainerRef.current) {
+            playingVideosRef.current.clear();
+            cardsContainerRef.current.querySelectorAll('video').forEach((video) => {
+              if (!video.paused) {
+                playingVideosRef.current.add(video);
+                video.pause();
+              }
+            });
+          }
         }
       },
       {
@@ -87,6 +115,7 @@ const SocialMediaSection = () => {
     <div ref={sectionRef} className={`flex flex-col items-center justify-center ${isMobile ? 'py-8 p-8' : 'p-20 pb-0'}`}>
       <SectionHeading title="Social Media" />
       <div
+        ref={cardsContainerRef}
         className={`w-full relative h-screen ${isMobile ? 'mt-50 -mb-50' : '-mt-30'}`}
         onTouchStart={isMobile ? onTouchStartFunc : undefined}
         onTouchMove={isMobile ? onTouchMoveFunc : undefined}

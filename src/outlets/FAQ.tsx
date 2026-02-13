@@ -79,16 +79,13 @@ const FAQ = () => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <section className="w-full py-20 px-10 bg-gray-50" id="faq">
+      <section className="w-full py-20 px-10 bg-white pt-0" id="faq">
         <div className="w-full flex flex-col justify-center items-center">
           <div className="flex justify-center items-center text-center">
           <SectionHeading title="Frequently Asked Questions" />
           </div>
-          <div className="text-center max-w-4xl my-8">
+          <div className="text-center max-w-4xl my-8 mt-2">
             <h2 className="text-2xl font-semibold mb-4">Everything You Need to Know About PinkCity Mouth Freshener</h2>
-            <p className="text-lg text-gray-700">
-              Find answers to common questions about our <strong>premium mukhwas</strong> products, manufacturing process, and services. Learn more about <strong>PinkCity Mouth Freshener</strong>, Jaipur{"'"}s trusted manufacturer of authentic <strong>Indian mouth fresheners</strong> since 1982.
-            </p>
           </div>
         </div>
         <div className="max-w-4xl mx-auto mt-12">

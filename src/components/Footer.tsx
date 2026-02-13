@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { useMobile } from "./MobileProvider";
 import Image from "next/image";
-import Logo from "../../public/images/logo.png";
+import Logo from "../../public/images/logo.svg";
 
 const Footer = () => {
   const isMobile = useMobile();
@@ -42,13 +42,13 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className={`flex opacity-90 min-w-1/3 ${isMobile ? "flex-col gap-14" : "flex-row gap-24"}`}>
+        <div className={`flex opacity-90 min-w-1/3 ${isMobile ? "flex-col gap-10" : "flex-row gap-24"}`}>
           <div className="text-left flex flex-col gap-4">
             <h4 className="font-bold text-lg mb-4">Company</h4>
             <a href="#about" className="text-sm hover:text-pinkcity transition-colors">About Us</a>
             <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Our Products</a>
             <a href="#contact" className="text-sm hover:text-pinkcity transition-colors">Contact Us</a>
-            <a href="#faq" className="text-sm hover:text-pinkcity transition-colors">FAQ</a>
+            <a href="#faq" className="text-sm hover:text-pinkcity transition-colors">FAQs</a>
           </div>
           <div className="text-left flex flex-col gap-4">
             <h4 className="font-bold text-lg mb-4">Products</h4>

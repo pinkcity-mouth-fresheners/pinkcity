@@ -27,10 +27,22 @@ const VideoCard: React.FC<VideoCardProps> = ({ src, onMouseEnter, onMouseLeave }
     }
   };
 
+  // Toggle play/pause on tap (mobile)
+  const handleClick = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  };
+
   return (
     <div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
       className="w-full h-full rounded-2xl overflow-hidden shadow-lg"
     >
       <video
