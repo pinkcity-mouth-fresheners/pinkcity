@@ -44,7 +44,7 @@ const Chatbot = () => {
 
       const data = await response.json();
 
-      if (data.fallback_used && data.whatsapp_link) {
+      if (data.whatsapp_link) {
         window.open(data.whatsapp_link, '_blank');
         setMessages([
           ...messages,
