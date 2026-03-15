@@ -50,7 +50,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ src, onMouseEnter, onMouseLeave }
         src={src}
         loop
         playsInline
-        preload="none"
+        preload="auto"
         loading="lazy"
         className="w-full h-full object-cover"
       />
