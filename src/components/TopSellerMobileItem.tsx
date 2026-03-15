@@ -1,10 +1,10 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import React from "react";
 import Star from "../../public/images/star.svg";
 
 type Props = {
   text: string;
-  imageSrc: StaticImageData;
+  imageSrc: string;
   onClick?: () => void;
 };
 
@@ -28,6 +28,9 @@ const TopSellerMobileItem = ({ text, imageSrc, onClick }: Props) => {
       <Image
         src={imageSrc}
         alt={text}
+        width={400}
+        height={400}
+        style={{ width: "auto", height: "auto" }}
         className="absolute bottom-0 right-0 translate-1/3 scale-[1.4] object-cover z-10"
       />
     </div>

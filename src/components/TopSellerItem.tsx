@@ -4,12 +4,12 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useRef, useEffect } from "react";
 import Star from "../../public/images/star.svg";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { useMobile } from "./MobileProvider";
 
 type Props = {
   text: string;
-  imageSrc: StaticImageData;
+  imageSrc: string;
   onClick?: () => void;
 };
 
@@ -77,6 +77,9 @@ const TopSellerItem = ({ text, imageSrc, onClick }: Props) => {
             <Image
               src={imageSrc}
               alt={text}
+              width={400}
+              height={400}
+              style={{ width: 'auto', height: 'auto' }}
               className={`w-full z-10 object-cover transform scale-[1.1] translate-y-[70%] group-hover:scale-[.5] group-hover:rotate-180 group-hover:translate-y-[15%] ${!isMobile ? 'transition-all duration-1500' : ''}`}
             />
           </div>

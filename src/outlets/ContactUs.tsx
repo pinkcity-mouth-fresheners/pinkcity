@@ -2,10 +2,10 @@
 import Alert from "@/components/Alert";
 import ContactUsCard from "@/components/ContactUsCard";
 import Star from "../../public/images/star_white.svg";
-import DryPaan from "../../public/multimedia/dry_paan.png";
 import { useMobile } from "@/components/MobileProvider";
 import React, { useState } from "react";
 import Image from "next/image";
+import { mediaUrl } from "@/lib/media";
 
 const ContactUs = () => {
   const [alert, setAlert] = useState<{
@@ -45,7 +45,7 @@ const ContactUs = () => {
         {!isMobile && (
           <div className="max-w-1/2 relative p-0">
             <Image src={Star} alt="Star" className="z-10 transform translate-x-4/10 translate-y-4/10 scale-[2] opacity-60"/>
-            <Image src={DryPaan} alt="Dry Paan" className="absolute z-20 -bottom-100 -right-100 scale-[1.6]"/>
+            <Image src={mediaUrl('/multimedia/components/dry_paan.png')} alt="Dry Paan" width={200} height={200} style={{ width: 'auto', height: 'auto' }} className="absolute z-20 -bottom-100 -right-100 scale-[1.6]"/>
           </div>
         )}
       </div>

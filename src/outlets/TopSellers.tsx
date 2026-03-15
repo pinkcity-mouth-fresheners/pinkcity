@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import ProductModal from "@/components/ProductModal";
 import TopSellerItem from "@/components/TopSellerItem";
 import SectionHeading from "@/components/SectionHeading";
-import Banarasi from "../../public/multimedia/banarasi_paan.png";
-import CalcultiPaanGold from "../../public/multimedia/calcutti_pan_gold.png";
 import { useMobile } from "@/components/MobileProvider";
 import TopSellerMobileItem from "@/components/TopSellerMobileItem";
 import { selectedProduct } from "@/components/ProductModal";
@@ -34,11 +32,12 @@ import BadshahiPaan from "../../public/multimedia/products/Paan Mukhwas (with Su
 import GulkandPaanWithSupari from "../../public/multimedia/products/Paan Mukhwas (with Supari)/Gulkand Paan.png";
 import MadhuramPaan from "../../public/multimedia/products/Paan Mukhwas (with Supari)/Madhuram Paan.png";
 import KesarPaanSpecial from "../../public/multimedia/products/Paan Mukhwas (with Supari)/Kesar Paan Special.png";
+import { mediaUrl } from "@/lib/media";
 
 const topSellersData = [
-  { text: "Banarsi Paan", imageSrc: Banarasi, selectedProduct: "Banarsi  Paan" },
-  { text: "Calcutti Paan Gold", imageSrc: CalcultiPaanGold, selectedProduct: "Calcutti  Paan Gold" },
-  { text: "Dry Paan", imageSrc: DryPaan, selectedProduct: "Dry  Paan" },
+  { text: "Banarsi Paan", imageSrc: mediaUrl('/multimedia/components/banarasi_paan.png'), selectedProduct: "Banarsi  Paan" },
+  { text: "Calcutti Paan Gold", imageSrc: mediaUrl('/multimedia/components/calcutti_pan_gold.png'), selectedProduct: "Calcutti  Paan Gold" },
+  { text: "Dry Paan", imageSrc: mediaUrl('/multimedia/components/Dry%20Paan.png'), selectedProduct: "Dry  Paan" },
 ];
 
 const product = {
