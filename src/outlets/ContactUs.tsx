@@ -45,7 +45,15 @@ const ContactUs = () => {
         {!isMobile && (
           <div className="max-w-1/2 relative p-0">
             <Image src={Star} alt="Star" className="z-10 transform translate-x-4/10 translate-y-4/10 scale-[2] opacity-60"/>
-            <Image src={mediaUrl('/multimedia/components/Dry%20Paan%20With%20Supari.png')} alt="Dry Paan" width={800} height={800} style={{ width: 'auto', height: 'auto' }} className="absolute z-20 -bottom-80 -right-100 scale-[1.6]"/>
+            <Image 
+              src={mediaUrl('/multimedia/components/Dry Paan With Supari.png')} 
+              alt="Dry Paan" 
+              width={800} 
+              height={800} 
+              priority
+              style={{ width: 'auto', height: 'auto' }} 
+              className="absolute z-20 -bottom-80 -right-100 scale-[1.6]"
+            />
           </div>
         )}
       </div>
