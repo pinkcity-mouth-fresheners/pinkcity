@@ -4,6 +4,7 @@ import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { mediaUrl } from '@/lib/media';
 
 interface BrochureOverlayProps {
   onClose: () => void;
@@ -27,7 +28,7 @@ const BrochureOverlay: React.FC<BrochureOverlayProps> = ({ onClose }) => {
           <FontAwesomeIcon icon={faDownload} />
         </a>
         <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
-          <Viewer fileUrl="/brochure.pdf" />
+          <Viewer fileUrl={mediaUrl('/brochure.pdf')} />
         </Worker>
       </div>
     </div>

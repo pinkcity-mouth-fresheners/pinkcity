@@ -5,15 +5,25 @@ const nextConfig: NextConfig = {
   output: "export",
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.pinkcitymouthfresheners.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 2678400, // 31 days, matches your origin Cache-Control
   },
-  eslint:{
+  eslint: {
     ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,
   },
   webpack: (config) => {
-    config.externals.push('canvas');
+    config.externals.push("canvas");
     return config;
   },
 };

@@ -1,8 +1,8 @@
 {
   "videos": [
-    { "src": "/multimedia/video102.mp4" },
-    { "src": "/multimedia/video544.mp4" },
-    { "src": "/multimedia/video719.mp4" },
-    { "src": "/multimedia/video995.mp4" }
+    { "src": "/video102.mp4" },
+    { "src": "/video544.mp4" },
+    { "src": "/video719.mp4" },
+    { "src": "/video995.mp4" }
   ]
 }

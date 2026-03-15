@@ -4,6 +4,7 @@ import React, { useState, useEffect, TouchEvent, useRef } from "react";
 import VideoCard from "@/components/VideoCard";
 import videosData from "@/data/socialVideos.json";
 import { useMobile } from "@/components/MobileProvider";
+import { mediaUrl } from "@/lib/media";
 
 const SocialMediaSection = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -160,7 +161,7 @@ const SocialMediaSection = () => {
               }}
             >
               <VideoCard
-                src={video.src}
+                src={mediaUrl(video.src)}
                 onMouseEnter={!isMobile ? () => setHoveredIndex(index) : undefined}
                 onMouseLeave={!isMobile ? () => setHoveredIndex(null) : undefined}
               />
