@@ -11,6 +11,8 @@ interface BrochureOverlayProps {
 }
 
 const BrochureOverlay: React.FC<BrochureOverlayProps> = ({ onClose }) => {
+  const brochureUrl = mediaUrl('/brochure.pdf')
+
   return (
     <div className="fixed inset-0 bg-opacity-20 backdrop-blur-sm flex justify-center items-center z-50">
       <div className="w-3/4 h-3/4 rounded-xl bg-white overflow-auto flex flex-col relative">
@@ -21,14 +23,14 @@ const BrochureOverlay: React.FC<BrochureOverlayProps> = ({ onClose }) => {
           <FontAwesomeIcon icon={faXmark} />
         </button>
         <a
-          href="/brochure.pdf"
+          href={brochureUrl}                             
           download="Pink City Mouth Fresheners Brochure"
           className="absolute top-20 right-4 bg-gray-800 text-white w-10 h-10 z-50 rounded-full flex items-center justify-center"
         >
           <FontAwesomeIcon icon={faDownload} />
         </a>
-        <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
-          <Viewer fileUrl={mediaUrl('/brochure.pdf')} />
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
+          <Viewer fileUrl={brochureUrl} />
         </Worker>
       </div>
     </div>

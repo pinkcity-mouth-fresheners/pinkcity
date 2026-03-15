@@ -51,10 +51,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, image }) => {
           <Image
             src={image}
             alt="Product Image"
-            width={200}
-            height={200}
+            width={50}
+            height={50}
             style={{ width: "auto", height: "auto" }}
-            className="absolute w-[60%] pb-6 md:pb-10 transition-transform duration-1000 scale-[1.1] group-hover:scale-[1.3]"
+            className="absolute w-[60%] pb-6 md:pb-10 transition-transform duration-1000 scale-[0.65] group-hover:scale-[0.9]"
           />
         </div>
         <h3
