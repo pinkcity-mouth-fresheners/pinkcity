@@ -14,10 +14,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, image }) => {
 
   const renderTitle = () => {
     if (isMobile) {
-      const words = title.split(' ');
+      const words = title.split(" ");
       if (words.length > 1) {
         const lastWord = words.pop();
-        const firstPart = words.join(' ');
+        const firstPart = words.join(" ");
         return (
           <>
             {firstPart}
@@ -51,6 +51,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, image }) => {
           <Image
             src={image}
             alt="Product Image"
+            width={200}
+            height={200}
+            style={{ width: "auto", height: "auto" }}
             className="absolute w-[60%] pb-6 md:pb-10 transition-transform duration-1000 scale-[1.1] group-hover:scale-[1.3]"
           />
         </div>
@@ -62,10 +65,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, image }) => {
         </h3>
       </div>
       {/* Corner Designs */}
-      <Image src={Design} alt="design" className="absolute top-2 left-2 w-6 h-6 md:w-10 md:h-10 opacity-0 group-hover:opacity-100" />
-      <Image src={Design} alt="design" className="absolute top-2 right-2 w-6 h-6 md:w-10 md:h-10 opacity-0 group-hover:opacity-100 rotate-90" />
-      <Image src={Design} alt="design" className="absolute bottom-2 right-2 w-6 h-6 md:w-10 md:h-10 opacity-0 group-hover:opacity-100 rotate-180" />
-      <Image src={Design} alt="design" className="absolute bottom-2 left-2 w-6 h-6 md:w-10 md:h-10 opacity-0 group-hover:opacity-100 -rotate-90" />
+      <Image
+        src={Design}
+        alt="design"
+        className="absolute top-2 left-2 w-6 h-6 md:w-10 md:h-10 opacity-0 group-hover:opacity-100"
+      />
+      <Image
+        src={Design}
+        alt="design"
+        className="absolute top-2 right-2 w-6 h-6 md:w-10 md:h-10 opacity-0 group-hover:opacity-100 rotate-90"
+      />
+      <Image
+        src={Design}
+        alt="design"
+        className="absolute bottom-2 right-2 w-6 h-6 md:w-10 md:h-10 opacity-0 group-hover:opacity-100 rotate-180"
+      />
+      <Image
+        src={Design}
+        alt="design"
+        className="absolute bottom-2 left-2 w-6 h-6 md:w-10 md:h-10 opacity-0 group-hover:opacity-100 -rotate-90"
+      />
     </div>
   );
 };

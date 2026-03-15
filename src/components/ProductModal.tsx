@@ -1,30 +1,34 @@
-import { StaticImageData } from "next/image";
 import React, { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useMobile } from "./MobileProvider";
 import Arrow from "../../public/images/arrow.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { width } from "@fortawesome/free-brands-svg-icons/fa11ty";
 
 interface ProductModalProps {
   product: {
     title: string;
-    image: StaticImageData;
+    image: string;
     description: string;
     subcategories?: string[];
     items: selectedProduct[];
   };
   onClose: () => void;
-  selectedProductSample?: selectedProduct
+  selectedProductSample?: selectedProduct;
 }
 
 export interface selectedProduct {
   title: string;
-  image: StaticImageData;
+  image: string;
   description: string;
   parentCategory?: string;
 }
-const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedProductSample }) => {
+const ProductModal: React.FC<ProductModalProps> = ({
+  product,
+  onClose,
+  selectedProductSample,
+}) => {
   const isMobile = useMobile();
   /* State Initialization with logic to respect selectedProductSample */
   const [activeCategory, setActiveCategory] = useState<string>(() => {
@@ -34,50 +38,64 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
     return product.subcategories?.[0] ?? "";
   });
 
-  const [selectedProduct, setSelectedProduct] = useState<selectedProduct | null>(() => {
-    if (selectedProductSample) return selectedProductSample;
+  const [selectedProduct, setSelectedProduct] =
+    useState<selectedProduct | null>(() => {
+      if (selectedProductSample) return selectedProductSample;
 
-    // Fallback default logic if no sample provided
-    const defaultCategory = product.subcategories?.[0] ?? "";
-    if (defaultCategory) {
-      return product.items.find(item => item.parentCategory === defaultCategory) || null;
-    }
-    return product.items[0] || null;
-  });
+      // Fallback default logic if no sample provided
+      const defaultCategory = product.subcategories?.[0] ?? "";
+      if (defaultCategory) {
+        return (
+          product.items.find(
+            (item) => item.parentCategory === defaultCategory,
+          ) || null
+        );
+      }
+      return product.items[0] || null;
+    });
 
   // Derived state for active products based on category
   const activeProducts = React.useMemo(() => {
     if (activeCategory) {
-      return product.items.filter((item) => item.parentCategory === activeCategory);
+      return product.items.filter(
+        (item) => item.parentCategory === activeCategory,
+      );
     }
     return product.items;
   }, [activeCategory, product.items]);
 
-  const [animationPhase, setAnimationPhase] = useState<'idle' | 'exiting' | 'entering'>('idle');
-  const [direction, setDirection] = useState<'next' | 'prev'>('next');
+  const [animationPhase, setAnimationPhase] = useState<
+    "idle" | "exiting" | "entering"
+  >("idle");
+  const [direction, setDirection] = useState<"next" | "prev">("next");
 
   const handleCategoryChange = (category: string) => {
     if (category === activeCategory) return;
     setActiveCategory(category);
 
     // When category changes, default to first item in that category
-    const productsInNewCategory = product.items.filter(item => item.parentCategory === category);
+    const productsInNewCategory = product.items.filter(
+      (item) => item.parentCategory === category,
+    );
     if (productsInNewCategory.length > 0) {
       handleProductChange(productsInNewCategory[0]);
     }
   };
 
-  const handleProductChange = (newProduct: selectedProduct, dir: 'next' | 'prev' = 'next') => {
+  const handleProductChange = (
+    newProduct: selectedProduct,
+    dir: "next" | "prev" = "next",
+  ) => {
     if (newProduct.title === selectedProduct?.title) return;
 
     setDirection(dir);
     // Stage 1: Exit
-    setAnimationPhase('exiting');
+    setAnimationPhase("exiting");
 
     setTimeout(() => {
       // Stage 2: Swap Data and Reset Position
       setSelectedProduct(newProduct);
-      setAnimationPhase('entering');
+      setAnimationPhase("entering");
     }, 300);
   };
 
@@ -97,12 +115,12 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
 
   // Refined Logic using useEffect for the 'entering' -> 'idle' step:
   useEffect(() => {
-    if (animationPhase === 'entering') {
+    if (animationPhase === "entering") {
       // We are at "Start Position" (Right side).
       // Wait a tick then move to "End Position" (Center).
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          setAnimationPhase('idle');
+          setAnimationPhase("idle");
         });
       });
     }
@@ -112,50 +130,50 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
   const setNextItem = () => {
     if (!selectedProduct) return;
     const currentIndex = activeProducts.findIndex(
-      (item) => item.title === selectedProduct.title
+      (item) => item.title === selectedProduct.title,
     );
     const nextIndex = (currentIndex + 1) % activeProducts.length;
-    handleProductChange(activeProducts[nextIndex], 'next');
+    handleProductChange(activeProducts[nextIndex], "next");
   };
 
   const setPrevItem = () => {
     if (!selectedProduct) return;
     const currentIndex = activeProducts.findIndex(
-      (item) => item.title === selectedProduct.title
+      (item) => item.title === selectedProduct.title,
     );
     let nextIndex = (currentIndex - 1) % activeProducts.length;
     if (nextIndex < 0) {
       nextIndex = activeProducts.length - 1;
     }
-    handleProductChange(activeProducts[nextIndex], 'prev');
+    handleProductChange(activeProducts[nextIndex], "prev");
   };
 
   // Keyboard navigation: Left/Right arrow keys
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') {
+      if (e.key === "ArrowRight") {
         setNextItem();
-      } else if (e.key === 'ArrowLeft') {
+      } else if (e.key === "ArrowLeft") {
         setPrevItem();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   });
 
   // Helper to determine classes based on phase and direction
   const getTransformClasses = () => {
-    const isNext = direction === 'next';
+    const isNext = direction === "next";
     switch (animationPhase) {
-      case 'exiting':
+      case "exiting":
         // Next: exit left, rotate CCW | Prev: exit right, rotate CW
-        return `opacity-0 ${isNext ? '-translate-x-full -rotate-180' : 'translate-x-full rotate-180'} transition-all duration-1000 ease-in-out`;
-      case 'entering':
+        return `opacity-0 ${isNext ? "-translate-x-full -rotate-180" : "translate-x-full rotate-180"} transition-all duration-1000 ease-in-out`;
+      case "entering":
         // Next: start at right | Prev: start at left (no transition, instant jump)
-        return `opacity-0 ${isNext ? 'translate-x-full rotate-180' : '-translate-x-full -rotate-180'} transition-none`;
-      case 'idle':
-        return 'opacity-100 translate-x-0 rotate-0 transition-all duration-1000 ease-out';
+        return `opacity-0 ${isNext ? "translate-x-full rotate-180" : "-translate-x-full -rotate-180"} transition-none`;
+      case "idle":
+        return "opacity-100 translate-x-0 rotate-0 transition-all duration-1000 ease-out";
     }
   };
 
@@ -175,8 +193,12 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
         >
           <FontAwesomeIcon icon={faXmark} className="text-2xl" />
         </button>
-        <div className={`bg-white ${isMobile ? "p-4" : "p-8"} rounded-[22px] flex flex-col md:flex-row items-start justify-around w-full`}>
-          <div className={`${isMobile ? "w-full gap-4 h-auto" : "w-1/2 gap-8 h-full"} flex flex-col justify-center items-start`}>
+        <div
+          className={`bg-white ${isMobile ? "p-4" : "p-8"} rounded-[22px] flex flex-col md:flex-row items-start justify-around w-full`}
+        >
+          <div
+            className={`${isMobile ? "w-full gap-4 h-auto" : "w-1/2 gap-8 h-full"} flex flex-col justify-center items-start`}
+          >
             <div className="min-w-4/5">
               <h2
                 className={`${isMobile ? "text-2xl mb-2" : "text-4xl md:text-5xl mb-4"} text-black`}
@@ -194,15 +216,19 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
                   <Image src={Arrow} alt="Arrow" />
                 </div>
               </button>
-              <div className="relative w-8/12 aspect-square overflow-hidden rounded-full"> {/* Overflow hidden to mask the slide */}
+              <div className="relative w-8/12 aspect-square overflow-hidden rounded-full">
+                {" "}
+                {/* Overflow hidden to mask the slide */}
                 <div
                   className={`w-full h-full relative transform ${getTransformClasses()}`}
                 >
                   <Image
                     src={selectedProduct?.image || product.image}
                     alt={product.title}
+                    width={200}
+                    height={200}
+                    style={{ width: "auto", height: "auto" }}
                     className={`${isMobile ? "scale-100" : "scale-125"}`}
-                    fill
                   />
                 </div>
               </div>
@@ -219,13 +245,22 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
                 </div>
               </button>
             </div>
-            <h1 className={`font-bold ${isMobile ? "text-xl" : "text-4xl"}`}>{selectedProduct?.title}</h1>
-            <p className={`text-gray-700 ${isMobile ? "mb-2 text-sm" : "mb-6"}`}>{selectedProduct?.description}</p>
+            <h1 className={`font-bold ${isMobile ? "text-xl" : "text-4xl"}`}>
+              {selectedProduct?.title}
+            </h1>
+            <p
+              className={`text-gray-700 ${isMobile ? "mb-2 text-sm" : "mb-6"}`}
+            >
+              {selectedProduct?.description}
+            </p>
           </div>
-          <div className={`${isMobile ? "w-full pl-0 p-4 pt-0 h-auto" : "w-1/2 pl-8 p-12 h-full"} flex flex-col gap-4 justify-start pb-0 items-start`}>
-
+          <div
+            className={`${isMobile ? "w-full pl-0 p-4 pt-0 h-auto" : "w-1/2 pl-8 p-12 h-full"} flex flex-col gap-4 justify-start pb-0 items-start`}
+          >
             {product.subcategories && (
-              <div className={`flex w-full justify-start gap-4 ${isMobile ? "overflow-x-auto pb-2 flex-nowrap" : "flex-wrap"}`}>
+              <div
+                className={`flex w-full justify-start gap-4 ${isMobile ? "overflow-x-auto pb-2 flex-nowrap" : "flex-wrap"}`}
+              >
                 {product.subcategories.map((subcategory) => (
                   <button
                     key={subcategory}
@@ -233,11 +268,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
                     className="flex-shrink-0"
                   >
                     <p
-                      className={`text-pinkcity-dark min-w-[100px] flex justify-center items-center border border-pinkcity-dark rounded-xl ${isMobile ? "text-xs px-3 py-1" : "px-6 py-2"
-                        } ${subcategory === activeCategory
+                      className={`text-pinkcity-dark min-w-[100px] flex justify-center items-center border border-pinkcity-dark rounded-xl ${
+                        isMobile ? "text-xs px-3 py-1" : "px-6 py-2"
+                      } ${
+                        subcategory === activeCategory
                           ? "bg-pinkcity-dark text-white"
                           : "bg-white text-pinkcity-dark"
-                        }`}
+                      }`}
                     >
                       {subcategory}
                     </p>
@@ -246,7 +283,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
               </div>
             )}
             {activeProducts && (
-              <div className={`w-full flex flex-wrap gap-4 mt-6 ${isMobile ? "max-h-[40vh] overflow-y-auto" : "min-h-6/10 overflow-y-auto"}`}>
+              <div
+                className={`w-full flex flex-wrap gap-4 mt-6 ${isMobile ? "max-h-[40vh] overflow-y-auto" : "min-h-6/10 overflow-y-auto"}`}
+              >
                 {activeProducts.map((item) => (
                   <button
                     key={`${item.title}-${item.image}-${item.parentCategory}`}
@@ -254,16 +293,24 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, selectedP
                     className={`${isMobile ? "w-1/4" : "w-1/5"}`}
                   >
                     <div
-                      className={`flex flex-col gap-2 justify-center items-center p-3 ${item == selectedProduct ? "bg-[#F35C81]/13" : ""
-                        }`}
+                      className={`flex flex-col gap-2 justify-center items-center p-3 ${
+                        item == selectedProduct ? "bg-[#F35C81]/13" : ""
+                      }`}
                     >
                       <div className={`min-w-10/12 opacity-100`}>
-                        <Image src={item.image} alt={item.title} />
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          width={200}
+                          height={200}
+                          style={{ width: "auto", height: "auto" }}
+                        />
                       </div>
                       <div>
-                        {item.title.split("  ").map((word) => <p className="text-center text-xs">{word}</p>)}
+                        {item.title.split("  ").map((word) => (
+                          <p className="text-center text-xs">{word}</p>
+                        ))}
                       </div>
-
                     </div>
                   </button>
                 ))}
