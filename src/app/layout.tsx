@@ -182,6 +182,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* 2026-06-04 (perf): warm DNS for the R2 media origin early. Product images are still served
+            from media.pinkcitymouthfresheners.com (below the fold); resolving its DNS up front shaves
+            latency off the first such fetch without competing with the critical path (the logo is now
+            same-origin, so nothing render-critical depends on this host). */}
+        <link rel="dns-prefetch" href="https://media.pinkcitymouthfresheners.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

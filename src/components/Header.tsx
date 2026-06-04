@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { useMobile } from "./MobileProvider";
 import Image from "next/image";
-import { mediaUrl } from "@/lib/media";
 
 const headers = [
   {
@@ -39,8 +38,10 @@ const Header = ({ onBrochureClick }: { onBrochureClick: () => void }) => {
             className="cursor-pointer"
             aria-label="PinkCity Mouth Freshener - Home"
           >
+            {/* 2026-06-04 (perf): same-origin 124 KB WebP instead of the 2.8 MB cross-origin R2
+                logo.svg — avoids a DNS+TCP+TLS handshake on this priority, above-the-fold asset. */}
             <Image
-              src={mediaUrl("logo.svg")}
+              src="/images/logo.webp"
               alt="PinkCity Mouth Freshener Logo"
               width={200}
               height={200}

@@ -7,7 +7,6 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { useMobile } from "./MobileProvider";
 import Image from "next/image";
-import { mediaUrl } from "@/lib/media";
 
 const Footer = () => {
   const isMobile = useMobile();
@@ -17,7 +16,8 @@ const Footer = () => {
       <div className={`w-full flex items-start justify-between ${isMobile ? "flex-col gap-4" : "flex-row"}`}>
         <div className={`flex flex-col ${isMobile ? "items-center pb-4" : "items-start"} gap-10`}>
           <div className="w-full flex items-start justify-start">
-            <Image src={mediaUrl('logo.svg')} width={200} height={200} alt="PinkCity Mouth Freshener Logo" className={`h-auto ${isMobile ? "w-full" : "w-1/5"}`} />
+            {/* 2026-06-04 (perf): same-origin logo.webp (124 KB) instead of R2 logo.svg (2.8 MB). */}
+            <Image src="/images/logo.webp" width={200} height={200} alt="PinkCity Mouth Freshener Logo" className={`h-auto ${isMobile ? "w-full" : "w-1/5"}`} />
           </div>
           <div className={`flex gap-4 ${!isMobile ? "ps-4" : "justify-center"}`} role="navigation" aria-label="Social media links">
             <a

@@ -1,6 +1,8 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
 import { getAnalytics, Analytics, isSupported } from "firebase/analytics";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+// 2026-06-04: Removed `firebase/auth` imports — auth was never used on the static site, yet
+// importing getAuth/GoogleAuthProvider pulled the entire firebase/auth chunk into the client
+// bundle. Dropping it shrinks first-load JS with zero behavioral change. (perf audit)
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -15,9 +17,6 @@ const firebaseConfig = {
 
 const app: FirebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
-
 let analytics: Analytics | undefined;
 
 const initAnalytics = async () => {
@@ -31,4 +30,4 @@ const initAnalytics = async () => {
   return null;
 };
 
-export { app, analytics, initAnalytics, auth, googleProvider };
+export { app, analytics, initAnalytics };

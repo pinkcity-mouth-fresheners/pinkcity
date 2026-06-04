@@ -1,11 +1,12 @@
 "use client";
 import Image from "next/image";
 import React, { useRef } from "react";
-import AboutUsLogo from "../../public/images/about_us.svg";
+// 2026-06-04 (perf): about_us.svg (1.2 MB pure-vector) rasterized to about_us.webp (~272 KB) at 2x
+// display size. Decorative square card background, so rasterizing is visually equivalent here.
+import AboutUsLogo from "../../public/images/about_us.webp";
 import SectionHeading from "@/components/SectionHeading";
 import { useMobile } from "@/components/MobileProvider";
 import AboutBanner from "./AboutBanner";
-import { mediaUrl } from "@/lib/media";
 
 const AboutUs = () => {
   // const [isInView, setIsInView] = useState(false);
@@ -76,7 +77,7 @@ const AboutUs = () => {
                 className="z-10"
               />
               <Image
-                src={mediaUrl("logo.svg")}
+                src="/images/logo.webp"
                 width={400}
                 height={400}
                 style={{ width: "auto", height: "auto" }}
@@ -203,7 +204,7 @@ const AboutUs = () => {
               </p>
               <div className="w-[65%] mx-auto -my-6 rounded-2xl overflow-hidden">
                 <Image
-                  src={mediaUrl("logo.svg")}
+                  src="/images/logo.webp"
                   width={200}
                   height={200}
                   style={{ width: "auto", height: "auto" }}

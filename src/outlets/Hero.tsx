@@ -81,9 +81,11 @@ const Hero = () => {
             className={`absolute inset-0 overflow-hidden pointer-events-none rounded-[59] ${isMobile ? "hidden" : ""
               }`}
           >
-            {/* Elaichi Background Elements */}
+            {/* Elaichi Background Elements.
+                2026-06-04 (perf): source migrated from elaichi.svg (3.6 MB embedded raster) to
+                elaichi.webp (~4 KB). Same decorative cardamom; CSS handles each instance's rotation/scale. */}
             <Image
-              src="/images/elaichi.svg"
+              src="/images/elaichi.webp"
               alt="Premium cardamom elaichi used in PinkCity mouth freshener mukhwas"
               width={104}
               height={104}
@@ -93,7 +95,7 @@ const Hero = () => {
                 }`}
             />
             <Image
-              src="/images/elaichi.svg"
+              src="/images/elaichi.webp"
               alt="Natural ingredients for authentic Jaipur mukhwas"
               width={112}
               height={112}
@@ -103,7 +105,7 @@ const Hero = () => {
                 }`}
             />
             <Image
-              src="/images/elaichi.svg"
+              src="/images/elaichi.webp"
               alt="Fresh ingredients for PinkCity mouth freshener products"
               width={112}
               height={112}
@@ -113,7 +115,7 @@ const Hero = () => {
                 }`}
             />
             <Image
-              src="/images/elaichi.svg"
+              src="/images/elaichi.webp"
               alt="Quality elaichi cardamom for traditional Indian mukhwas"
               width={112}
               height={112}
