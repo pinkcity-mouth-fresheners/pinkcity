@@ -39,6 +39,60 @@
 8. **Dead code:** `src/svgs/Logo.tsx` (2,343-line unused inline SVG).
 
 ## Changelog (newest first — explain the WHY)
+### 2026-06-07 — SEO audit remediation (`PINKCITY_SEO_FIXES.md`)
+- **Why:** Owner supplied a 10-point SEO audit and asked to apply all of it *except* Fix #3
+  (next/image WebP — a no-op here: static export sets `images.unoptimized:true` and product images
+  are on R2). Exploration found several audit items were wrong or already done; decisions were
+  confirmed with the owner before coding. Plan:
+  `~/.claude/plans/read-pinkcity-seo-fixes-md-and-act-glimmering-music.md`.
+- **GA4 (Fix #1) — replaced Firebase Analytics with gtag.js.** Audit's premise ("only Cloudflare
+  Analytics") was wrong: GA4 already ran via Firebase (`NEXT_PUBLIC_MEASUREMENT_ID`). Adding gtag
+  *alongside* would double-count page_views. Chose to **swap** Firebase → standard `gtag.js`
+  (`next/script`, `afterInteractive`) in `layout.tsx`, **reusing the same measurement-ID env var** so
+  the GA4 property/data carry over. Deleted the now-orphaned `src/firebase.ts` and
+  `src/app/AnalyticsProvider.tsx`; removed `firebase` from `package.json` (bundle win — owner must
+  `npm install` to update the lockfile). Resolves tech-debt #4. GA scripts only render when the env
+  var is set at build time (graceful no-op otherwise). **Dashboard step (owner):** GA4 → link Search Console.
+- **Broken social/schema images (Fix #2) — bigger than the audit said.** `public/multimedia/products/`
+  is empty (images moved to R2), so `og:image`, `twitter:image`, the `LocalBusiness.image`, AND the
+  `sitemap.xml` image locs were **all 404** (www origin). The audit even suggested fixing og:image
+  with the *same 404 path*. Pointed all of them to the **R2 origin**
+  (`media.pinkcitymouthfresheners.com/multimedia/products/mukhwas_main.png`). Resolves tech-debt #7.
+  *Caveat:* `mukhwas_main.png` isn't a true 1200×630 — a dedicated OG asset would be better for CTR.
+- **LocalBusiness schema (Fix #4):** removed placeholder `telephone: "+91-XXXXXXXXXX"` (no number is
+  shown on the site) and removed `aggregateRating` 4.8/250 (no reviews are displayed anywhere → the
+  only "stars" are decorative Hero icons; unverifiable ratings violate Google policy / risk a penalty).
+- **Sitemap (Fix #5):** dropped the 4 `/#…` hash-anchor URLs (scroll positions on one page, not
+  crawlable pages), pointed image locs to R2, refreshed `lastmod` to 2026-06-07.
+- **FAQPage schema (Fix #6):** **already implemented** in `src/outlets/FAQ.tsx` (valid JSON-LD from all
+  10 Q&As) — no change. (Pattern reused for Product schema below.)
+- **Video (Fix #7, `VideoCard.tsx`):** `preload="auto"`→`"none"` (videos now fetch on hover/tap via
+  `play()`, not on page load — LCP/bytes win); removed invalid `loading="lazy"` (not a `<video>` attr);
+  added `aria-label`. Kept the deliberate hover/tap UX — did **not** add autoplay (4 autoplaying videos
+  would hurt mobile load). No poster/captions added (no assets; videos have no spoken content).
+- **Heading hierarchy (Fix #8A, `Footer.tsx`):** footer jumped `<h2>`→`<h4>`; changed the 3 footer
+  `<h4>` (Company, Products, sr-only Keywords) → `<h3>` to keep the outline contiguous.
+- **Button contrast (Fix #8B, `ContactUsCard.tsx`):** `pinkcity-dark` (#d93a61) on white = **4.44:1**,
+  just under WCAG AA 4.5:1 for normal text. Per owner decision, overrode **only** the Send Message
+  button with `bg-[#ca3358]` (≈5.1:1); left the global brand token untouched.
+- **Product schema (Fix #9, `OurProducts.tsx`):** 88 products on a single page, no prices, no
+  per-product URLs → product rich results won't trigger and 88 entries = bloat + "missing price"
+  warnings. Added **8 category-level** `Product` JSON-LD entries (one per top-level category), built by
+  mapping the existing `products` array (DRY) and emitted via a `<script>` inside the section (mirrors
+  FAQ.tsx). `offers`/price intentionally omitted; `brand`/`manufacturer` reference the Organization
+  `@id` from layout's `@graph` (cross-block `@id` is valid).
+- **Keywords meta (Fix #10, `layout.tsx`):** removed the 2 full-sentence keyword-stuffed entries.
+- **Out of scope:** Fix #3 (excluded), Fix #11 (GCP nginx — infra, not repo; relevant only if
+  self-hosting on GCP — owner to confirm hosting if wanted).
+- **⚠️ New tech debt surfaced — contrast is systemic, not just one button.** The same sub-4.5:1
+  `bg-pinkcity-dark text-white` (normal text) also appears in `Header.tsx` (CTA + mobile nav button),
+  `Chatbot.tsx` (message bubble + send button; hover uses the even-lighter `/90`), `ProductModal.tsx`
+  (selected tab), and `ContactUs.tsx` (section bg). Owner scoped this pass to the Send Message button
+  only; the cleaner systemic fix is to **darken the global `pinkcity-dark` token** (`tailwind.config.js`
+  + `globals.css @theme`) by a hair — barely perceptible, fixes all at once. Left for owner's call.
+- **Note on `logo.svg`:** OG metadata no longer references it, but the **Organization schema `logo`**
+  in `layout.tsx` still points to `public/images/logo.svg` — so it remains in use (don't delete yet).
+
 ### 2026-06-04 — Performance & favicon audit (planning + start of implementation)
 - **Why:** Owner asked for an "ultra fast rendering" static site and reported the favicon not showing
   in Google Search. Full audit captured above; remediation plan approved

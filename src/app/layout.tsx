@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Poppins, Prata } from "next/font/google";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.pinkcitymouthfresheners.com'),
@@ -23,8 +24,7 @@ export const metadata: Metadata = {
     "mouth freshener manufacturer",
     "wholesale mouth freshener",
     "mouth freshener supplier",
-    "best mouth freshener brands in Rajasthan India popular brands mouth freshener Rajasthan",
-    "best selling mouth freshener brands in India that are commonly available in Rajasthan"
+    // 2026-06-07 (SEO): removed two full-sentence keyword-stuffed entries — they read as spam.
   ],
   authors: [{ name: "PinkCity Mouth Freshener" }],
   creator: "PinkCity Mouth Freshener",
@@ -50,7 +50,9 @@ export const metadata: Metadata = {
     siteName: "PinkCity Mouth Freshener",
     images: [
       {
-        url: "/images/logo.svg",
+        // 2026-06-07 (SEO): SVG isn't rendered by social scrapers (FB/LinkedIn/WhatsApp) and the
+        // old www-origin product path is now a 404 (product images live on R2). Use the real R2 image.
+        url: "https://media.pinkcitymouthfresheners.com/multimedia/products/mukhwas_main.png",
         width: 1200,
         height: 630,
         alt: "PinkCity Mouth Freshener - Premium Mukhwas Products",
@@ -62,7 +64,8 @@ export const metadata: Metadata = {
     title: "PinkCity Mouth Freshener | Premium Mukhwas Since 1982",
     description:
       "Jaipur's trusted manufacturer of premium mouth fresheners and traditional mukhwas since 1982. Authentic flavors, hygienically packed.",
-    images: ["/multimedia/products/mukhwas_main.png"],
+    // 2026-06-07 (SEO): the www-origin path is a 404 — product images are served from R2.
+    images: ["https://media.pinkcitymouthfresheners.com/multimedia/products/mukhwas_main.png"],
   },
   alternates: {
     canonical: "https://www.pinkcitymouthfresheners.com",
@@ -74,8 +77,6 @@ import "@fortawesome/fontawesome-svg-core/styles.css"; // Import Font Awesome CS
 import { config } from "@fortawesome/fontawesome-svg-core";
 
 config.autoAddCss = false; // Disable Font Awesome's automatic CSS injection
-
-import AnalyticsProvider from "./AnalyticsProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -94,6 +95,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // 2026-06-07 (SEO): GA4 measurement ID for the gtag.js tag below. Reuses the existing Firebase
+  // measurement-ID env var so the GA4 property and its historical data are unchanged.
+  const GA_ID = process.env.NEXT_PUBLIC_MEASUREMENT_ID;
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -125,7 +129,8 @@ export default function RootLayout({
         "@type": "LocalBusiness",
         "@id": "https://www.pinkcitymouthfresheners.com/#localbusiness",
         name: "PinkCity Mouth Freshener",
-        image: "https://www.pinkcitymouthfresheners.com/multimedia/products/mukhwas_main.png",
+        // 2026-06-07 (SEO): product images live on R2; the www-origin path 404s.
+        image: "https://media.pinkcitymouthfresheners.com/multimedia/products/mukhwas_main.png",
         description: "PinkCity Mouth Freshener is Jaipur's trusted manufacturer of premium mukhwas, paan, and traditional mouth fresheners since 1982. We offer authentic flavors with hygienically packed products.",
         priceRange: "₹₹",
         address: {
@@ -140,18 +145,16 @@ export default function RootLayout({
           longitude: 75.7873,
         },
         url: "https://www.pinkcitymouthfresheners.com",
-        telephone: "+91-XXXXXXXXXX",
+        // 2026-06-07 (SEO): removed placeholder telephone — fake schema data risks Google
+        // discounting the markup, and no phone number is shown anywhere on the site.
         openingHoursSpecification: {
           "@type": "OpeningHoursSpecification",
           dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
           opens: "09:00",
           closes: "18:00",
         },
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: "4.8",
-          reviewCount: "250",
-        },
+        // 2026-06-07 (SEO): removed aggregateRating — no reviews are displayed on the page, so an
+        // unverifiable 4.8/250 rating violates Google's review-snippet policy and risks a penalty.
       },
       {
         "@type": "WebSite",
@@ -193,7 +196,26 @@ export default function RootLayout({
         />
       </head>
       <body className={`${poppins.variable} ${bentham.variable}`}>
-        <AnalyticsProvider />
+        {/* 2026-06-07 (SEO): standard GA4 via gtag.js, replacing the Firebase Analytics SDK.
+            Firebase already reported to this same GA4 property, so reusing GA_ID keeps data
+            continuity while dropping the Firebase SDK from the bundle. afterInteractive keeps
+            the tag off the critical path; gtag's config fires a single page_view per load. */}
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}', { page_path: window.location.pathname });
+              `}
+            </Script>
+          </>
+        )}
         {children}
       </body>
     </html>

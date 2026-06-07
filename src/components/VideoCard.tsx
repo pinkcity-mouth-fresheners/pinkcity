@@ -45,13 +45,16 @@ const VideoCard: React.FC<VideoCardProps> = ({ src, onMouseEnter, onMouseLeave }
       onClick={handleClick}
       className="w-full h-full rounded-2xl overflow-hidden shadow-lg"
     >
+      {/* 2026-06-07 (perf/a11y): preload="none" so videos don't download until the user hovers/taps
+          (play() triggers the fetch) — cuts wasted bytes and helps mobile LCP. Removed loading="lazy"
+          (not a valid <video> attribute). aria-label names the media for assistive tech. */}
       <video
         ref={videoRef}
         src={src}
         loop
         playsInline
-        preload="auto"
-        loading="lazy"
+        preload="none"
+        aria-label="PinkCity Mouth Freshener product showcase video"
         className="w-full h-full object-cover"
       />
     </div>

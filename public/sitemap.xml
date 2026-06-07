@@ -1,51 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  
-  <!-- Homepage -->
+
+  <!-- 2026-06-07 (SEO): single-page site. Removed /#about, /#products, /#faq, /#contact —
+       hash anchors are scroll positions on this same URL, not crawlable pages, and diluted
+       sitemap quality. Image locs now point to the R2 origin (the www-origin paths 404). -->
   <url>
     <loc>https://www.pinkcitymouthfresheners.com/</loc>
-    <lastmod>2026-02-01</lastmod>
+    <lastmod>2026-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://www.pinkcitymouthfresheners.com/multimedia/products/mukhwas_main.png</image:loc>
+      <image:loc>https://media.pinkcitymouthfresheners.com/multimedia/products/mukhwas_main.png</image:loc>
       <image:title>PinkCity Mouth Freshener - Premium Mukhwas</image:title>
       <image:caption>Premium mukhwas and mouth fresheners from Jaipur</image:caption>
     </image:image>
-  </url>
-
-  <!-- About Section -->
-  <url>
-    <loc>https://www.pinkcitymouthfresheners.com/#about</loc>
-    <lastmod>2026-02-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Products Section -->
-  <url>
-    <loc>https://www.pinkcitymouthfresheners.com/#products</loc>
-    <lastmod>2026-02-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- FAQ Section -->
-  <url>
-    <loc>https://www.pinkcitymouthfresheners.com/#faq</loc>
-    <lastmod>2026-02-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Contact Section -->
-  <url>
-    <loc>https://www.pinkcitymouthfresheners.com/#contact</loc>
-    <lastmod>2026-02-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://media.pinkcitymouthfresheners.com/multimedia/products/paan_mukhwas_main.png</image:loc>
+      <image:title>PinkCity Paan Mukhwas - Authentic Paan Flavor</image:title>
+      <image:caption>Traditional paan mukhwas with authentic Indian flavor from Jaipur</image:caption>
+    </image:image>
   </url>
 
 </urlset>
-

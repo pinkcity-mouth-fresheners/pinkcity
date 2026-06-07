@@ -1004,11 +1004,38 @@ const OurProducts = () => {
     setSelectedProduct(null);
   };
 
+  // 2026-06-07 (SEO): category-level Product structured data — one entry per top-level category
+  // (8 total), derived from the existing `products` array so there is no duplicated product data.
+  // offers/price are intentionally omitted (the site has no public pricing) to avoid incomplete-Offer
+  // warnings in Search Console; brand/manufacturer reference the Organization @id defined in the
+  // root layout's JSON-LD @graph. Emitted as a separate <script> like FAQ.tsx — Google merges blocks.
+  const productsSchema = {
+    "@context": "https://schema.org",
+    "@graph": products.map((product) => ({
+      "@type": "Product",
+      name: product.title,
+      image: product.image,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: "PinkCity Mouth Freshener",
+      },
+      manufacturer: {
+        "@id": "https://www.pinkcitymouthfresheners.com/#organization",
+      },
+    })),
+  };
+
   return (
     <div
       id="products"
       className="w-full p-10 flex flex-col justify-center items-center"
     >
+      {/* 2026-06-07 (SEO): category-level Product JSON-LD, built from productsSchema above. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productsSchema) }}
+      />
       <SectionHeading title="Our Products" />
       <div className="text-center max-w-4xl my-8">
         <h2 className="text-2xl font-semibold mb-4">

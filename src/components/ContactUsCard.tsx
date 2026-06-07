@@ -168,10 +168,13 @@ const ContactUsCard = ({
           rows={isMobile ? 3 : 4}
         />
       </div>
+      {/* 2026-06-07 (a11y): brand pinkcity-dark (#d93a61) on white is ~4.44:1 — just under the WCAG AA
+          4.5:1 minimum for this normal-size button text. Override only this button with a slightly
+          darker shade (#ca3358 ≈ 5.1:1) so the global brand token stays unchanged elsewhere. */}
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-pinkcity-dark text-white font-bold py-2 px-4 rounded-lg transition-colors"
+        className="bg-[#ca3358] text-white font-bold py-2 px-4 rounded-lg transition-colors"
         style={buttonStyle}
         onMouseEnter={handleButtonHover}>
         {isSubmitting ? "Submitting..." : "Send Message"}

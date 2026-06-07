@@ -44,21 +44,23 @@ const Footer = () => {
         </div>
         <div className={`flex opacity-90 min-w-1/3 ${isMobile ? "flex-col gap-10" : "flex-row gap-24"}`}>
           <div className="text-left flex flex-col gap-4">
-            <h4 className="font-bold text-lg mb-4">Company</h4>
+            {/* 2026-06-07 (a11y): h4 -> h3 here and below. Page sections use <h2>, so jumping
+                straight to h4 skipped a heading level; h3 keeps the outline contiguous. */}
+            <h3 className="font-bold text-lg mb-4">Company</h3>
             <a href="#about" className="text-sm hover:text-pinkcity transition-colors">About Us</a>
             <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Our Products</a>
             <a href="#contact" className="text-sm hover:text-pinkcity transition-colors">Contact Us</a>
             <a href="#faq" className="text-sm hover:text-pinkcity transition-colors">FAQs</a>
           </div>
           <div className="text-left flex flex-col gap-4">
-            <h4 className="font-bold text-lg mb-4">Products</h4>
+            <h3 className="font-bold text-lg mb-4">Products</h3>
             <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Paan Mukhwas</a>
             <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Traditional Mukhwas</a>
             <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Saunf Products</a>
             <a href="#products" className="text-sm hover:text-pinkcity transition-colors">Supari Products</a>
           </div>
           <div className="sr-only">
-            <h4 className="font-bold text-lg mb-4">Keywords</h4>
+            <h3 className="font-bold text-lg mb-4">Keywords</h3>
             <p className="text-xs">Mouth Freshener Jaipur</p>
             <p className="text-xs">Mukhwas Manufacturer</p>
             <p className="text-xs">Premium Mouth Freshener</p>
