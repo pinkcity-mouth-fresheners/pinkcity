@@ -95,9 +95,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // 2026-06-07 (SEO): GA4 measurement ID for the gtag.js tag below. Reuses the existing Firebase
-  // measurement-ID env var so the GA4 property and its historical data are unchanged.
-  const GA_ID = process.env.NEXT_PUBLIC_MEASUREMENT_ID;
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -194,28 +191,25 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        {/* 2026-06-07 (analytics): Google Tag Manager container loader. Must use next/script, not a
+            raw <script> with JS children — JSX parses the braces as expressions and breaks the loader.
+            afterInteractive keeps it off the critical path. */}
+        <Script id="gtm-init" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-K7Q2HCXP');`}
+        </Script>
       </head>
       <body className={`${poppins.variable} ${bentham.variable}`}>
-        {/* 2026-06-07 (SEO): standard GA4 via gtag.js, replacing the Firebase Analytics SDK.
-            Firebase already reported to this same GA4 property, so reusing GA_ID keeps data
-            continuity while dropping the Firebase SDK from the bundle. afterInteractive keeps
-            the tag off the critical path; gtag's config fires a single page_view per load. */}
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga4-init" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA_ID}', { page_path: window.location.pathname });
-              `}
-            </Script>
-          </>
-        )}
+        {/* Google Tag Manager (noscript) */}
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K7Q2HCXP"
+          height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe></noscript>
+        {/* End Google Tag Manager (noscript) */}
+        {/* 2026-06-07 (analytics): GA4 is configured INSIDE the GTM container (GTM-K7Q2HCXP), so the
+            direct gtag.js GA4 tag was removed to avoid double-counting page_views. Manage GA4 + any
+            future tags/events from GTM. */}
         {children}
       </body>
     </html>
